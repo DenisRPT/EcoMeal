@@ -1,12 +1,71 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal.Backend\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|c:\\users\\denis\\desktop\\proiectevs\\ecomeal\\ecomeal\\ecomeal.backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|c:\\users\\denis\\desktop\\proiectevs\\ecomeal\\ecomeal\\ecomeal.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|c:\\users\\denis\\desktop\\proiectevs\\ecomeal\\ecomeal\\ecomeal.backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D2D21B37-612A-4476-A3E3-E98D9B6F94AD}|EcoMeal.Backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-03T07:14:27.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-03T07:14:17.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-07-03T07:14:10.8Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
