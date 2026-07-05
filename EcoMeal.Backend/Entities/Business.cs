@@ -9,4 +9,5 @@ public class Business
     public required string Contact { get; set; }
     public int BusinessTypeId { get; set; }
     public  required BusinessType BusinessType { get; set; }
+    public ICollection<Package> Packages { get; set; } = new List<Package>();
 }
