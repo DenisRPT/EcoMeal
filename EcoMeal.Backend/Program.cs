@@ -13,13 +13,19 @@ builder.Services.AddDbContext<EcoMealDbContext>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
    );
 
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json","EcoMeal API");
+    });
 }
 
 app.UseHttpsRedirection();

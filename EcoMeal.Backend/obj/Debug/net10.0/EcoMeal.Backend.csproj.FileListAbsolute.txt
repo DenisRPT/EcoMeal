@@ -1,12 +1,3 @@
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.csproj.AssemblyReference.cache
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\rpswa.dswa.cache.json
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.AssemblyInfoInputs.cache
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.AssemblyInfo.cs
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.csproj.CoreCompileInputs.cache
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.sourcelink.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\appsettings.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\EcoMeal.Backend.staticwebassets.endpoints.json
@@ -48,8 +39,6 @@ C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net1
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Mono.TextTemplating.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Newtonsoft.Json.dll
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\System.ClientModel.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\System.CodeDom.dll
@@ -145,6 +134,15 @@ C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net1
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.csproj.AssemblyReference.cache
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.AssemblyInfoInputs.cache
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.AssemblyInfo.cs
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.csproj.CoreCompileInputs.cache
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\EcoMeal.Backend.sourcelink.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

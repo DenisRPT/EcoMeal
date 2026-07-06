@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient("EcoMealApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7112/");
+});
+
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("EcoMealApi"));
+
+builder.Services.AddScoped<EcoMeal.Site.Services.BusinessService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

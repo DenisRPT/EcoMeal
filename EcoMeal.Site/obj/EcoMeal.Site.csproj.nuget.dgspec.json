@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj": {}
+    "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj": {
+    "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj",
+        "projectUniqueName": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj",
         "projectName": "EcoMeal.Site",
-        "projectPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj",
+        "projectPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\EcoMeal.Site.csproj",
         "packagesPath": "C:\\Users\\Denis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\obj\\",
+        "outputPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Site\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
