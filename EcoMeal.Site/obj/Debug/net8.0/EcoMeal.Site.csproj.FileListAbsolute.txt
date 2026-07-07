@@ -63,3 +63,4 @@ c:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\
 c:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\EcoMeal.Site.pdb
 c:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\EcoMeal.Site.genruntimeconfig.cache
 c:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\ref\EcoMeal.Site.dll
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\scopedcss\Components\BusinessCard\BusinessCard.razor.rz.scp.css

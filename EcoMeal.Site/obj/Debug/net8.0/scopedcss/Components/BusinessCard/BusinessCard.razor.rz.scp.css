@@ -1,0 +1,13 @@
+.card[b-6vtvzu0aj6]{
+    margin:auto;
+    background-color:hsla(121, 100%, 79%, 0.108);
+    border-color:hsl(122, 98%, 16%);
+    text-align:center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover[b-6vtvzu0aj6]{
+    background-color: hsla(121, 100%, 79%, 0.714);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
