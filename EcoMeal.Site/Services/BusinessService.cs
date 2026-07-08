@@ -20,4 +20,16 @@ public class BusinessService
         var response = await _http.DeleteAsync($"api/business/{id}");
         return response.IsSuccessStatusCode;
     }
+
+    public async Task<BusinessDetailsModel?> GetOneById(int id)
+    {
+        var business = await _http.GetFromJsonAsync<BusinessDetailsModel>($"api/business/{id}");
+
+        return business;
+    }
+
+    public async Task AddPackageToBusiness(int businessId, PackageAddModel PackageAddModel)
+    {
+        await _http.PostAsJsonAsync($"api/business/{businessId}/packages", PackageAddModel);
+    }
 }

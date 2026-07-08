@@ -1,6 +1,6 @@
 @namespace EcoMeal.Site.Components.BusinessCard
 
-<div class="card" style="width: 18rem;">
+<div class="card" @onclick ="NavigateToDetails" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">@Business.Name</h5>
     <p class="card-text">@Business.Description</p>

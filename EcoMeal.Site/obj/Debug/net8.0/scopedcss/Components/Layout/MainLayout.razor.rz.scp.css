@@ -17,6 +17,7 @@ main[b-divn5014ok] {
     height: 5rem;
     display: flex;
     align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.20);
     }
 
     .top-row[b-divn5014ok]  a, .top-row[b-divn5014ok]  .btn-link {

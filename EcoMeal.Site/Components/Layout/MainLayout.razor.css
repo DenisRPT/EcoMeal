@@ -17,6 +17,7 @@ main {
     height: 5rem;
     display: flex;
     align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.20);
     }
 
     .top-row ::deep a, .top-row ::deep .btn-link {

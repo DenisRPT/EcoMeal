@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vriS4vx/21Y=",
+  "dgSpecHash": "nstWciynjy0=",
   "success": true,
-  "projectFilePath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+  "projectFilePath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Denis\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\Denis\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
@@ -59,9 +59,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "EcoMeal.Backend depends on Swashbuckle.AspNetCore.SwaggerUI (>= 10.0.2) but Swashbuckle.AspNetCore.SwaggerUI 10.0.2 was not found. Swashbuckle.AspNetCore.SwaggerUI 10.1.0 was resolved instead.",
-      "projectPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "projectPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "filePath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "libraryId": "Swashbuckle.AspNetCore.SwaggerUI",
       "targetGraphs": [
         "net10.0"
@@ -71,9 +71,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc",
-      "projectPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "projectPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "filePath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "libraryId": "Microsoft.OpenApi",
       "targetGraphs": [
         "net10.0"

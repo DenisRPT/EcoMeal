@@ -1,0 +1,69 @@
+@page "/business/{BusinessId:int}/addPackage"
+@using EcoMeal.Site.Models
+@using EcoMeal.Site.Services
+
+<h2>Add Package</h2>
+
+<EditForm Model="PackageAddModel">
+    <DataAnnotationsValidator/>
+    <ValidationSumarry/>
+    <label class="form-label">Nume</label>
+    <InputText class="form-control mb-2"
+               @bind-Value="PackageAddModel.Name"
+               placeholder="Adauga nume pachet" />
+    <ValidationMessage For="@(() => PackageAddModel.Name)" />
+
+    <label class="form-label">Descriere</label>
+    <InputTextArea @bind-Value="PackageAddModel.Description"
+                   placeholder="Descriere"
+                   rows="4"
+                   class="form-control mb-2" />
+
+    <label class="form-label">Pret</label>
+    <InputNumber @bind-Value="PackageAddModel.Price"
+                 placeholder="Pret"
+                 class="form-control mb-2" />
+
+    <label class="form-label">Start Pick-up</label>
+    <InputDate @bind-Value="PackageAddModel.PickupStart"
+               Type="InputDateType.DateTimeLocal"
+               placeholder="Start Pick-up"
+               class="form-control mb-2" />
+
+    <label class="form-label">End Pick-up</label>
+    <InputDate @bind-Value="PackageAddModel.PickupEnd"
+               Type="InputDateType.DateTimeLocal"
+               placeholder="End Pick-up"
+               class="form-control mb-2" />
+
+    <label class="form-label">Tip pachet</label>
+    <InputSelect @bind-Value="PackageAddModel.PackageTypeId"
+                 class="form-control mb-2">
+        <option value="0"
+                disabled>Alege tipul...</option>
+        @* @foreach (var packageType in PackageTypes)
+        {
+            <option value="@packageType.Id">@packageType.Name</option>
+        } *@
+    </InputSelect>
+    <button type="submit" class="btn btn-primary mt-3">Adaugă pachet</button>
+
+</EditForm>
+
+@code{
+    [Parameter]
+    public int BusinessId { get; set; }
+    [Inject]
+    public required BusinessService BusinessService { get; set; }
+    public PackageAddModel PackageAddModel { get; set; } = new PackageAddModel(){
+        Name = string.Empty,
+        Description = string.Empty,
+        Price = 0,
+        PickupStart = DateTime.Now,
+        PickupEnd = DateTime.Now.AddHours(2),
+        PackageTypeId = 1
+    };
+    public async Task AddPackageToBusiness(){
+        await BusinessService.AddPackageToBusiness(BusinessId, PackageAddModel);
+    }
+}

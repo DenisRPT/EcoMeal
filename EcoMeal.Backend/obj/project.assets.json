@@ -3166,11 +3166,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "projectUniqueName": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "projectName": "EcoMeal.Backend",
-      "projectPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
+      "projectPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\EcoMeal.Backend.csproj",
       "packagesPath": "C:\\Users\\Denis\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\obj\\",
+      "outputPath": "C:\\Users\\Denis\\Desktop\\ProiecteVS\\EcoMeal\\EcoMeal\\EcoMeal.Backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

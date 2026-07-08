@@ -10,6 +10,8 @@ public partial class BusinessCard
     public required BusinessModel Business { get; set; }
     [Inject]
     public required BusinessService BusinessService { get; set; }
+    [Inject]
+    public required NavigationManager Navigation { get; set; }
     [Parameter]
     public EventCallback<int> OnDeleted { get; set; }
 
@@ -20,5 +22,10 @@ public partial class BusinessCard
         {
             await OnDeleted.InvokeAsync(Business.Id);
         }
+    }
+
+    public void NavigateToDetails()
+    {
+        Navigation.NavigateTo($"/business/{Business.Id}");
     }
 }
