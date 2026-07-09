@@ -35,8 +35,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRQYWNrYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Denis/Desktop/ProiecteVS/EcoMeal/EcoMeal/EcoMeal.Site/Components/Pages/BusinessDetails.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xCdXNpbmVzc0RldGFpbHMucmF6b3I=
+[C:/Users/Denis/Desktop/ProiecteVS/EcoMeal/EcoMeal/EcoMeal.Site/Components/Pages/EditPackage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0UGFja2FnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Denis/Desktop/ProiecteVS/EcoMeal/EcoMeal/EcoMeal.Site/Components/Pages/Error.razor]
@@ -66,3 +66,7 @@ build_metadata.AdditionalFiles.CssScope = b-divn5014ok
 [C:/Users/Denis/Desktop/ProiecteVS/EcoMeal/EcoMeal/EcoMeal.Site/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-di9tcympjw
+
+[C:/Users/Denis/Desktop/ProiecteVS/EcoMeal/EcoMeal/EcoMeal.Site/Components/Pages/BusinessDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xCdXNpbmVzc0RldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-jj5ocresa3

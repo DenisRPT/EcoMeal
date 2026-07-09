@@ -1,12 +1,13 @@
+
 @page "/business/{BusinessId:int}/addPackage"
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 
 <h2>Add Package</h2>
 
-<EditForm Model="PackageAddModel">
+<EditForm Model="PackageAddModel" OnValidSubmit="AddPackageToBusiness">
     <DataAnnotationsValidator/>
-    <ValidationSumarry/>
+    <ValidationSummary />
     <label class="form-label">Nume</label>
     <InputText class="form-control mb-2"
                @bind-Value="PackageAddModel.Name"
@@ -39,12 +40,11 @@
     <label class="form-label">Tip pachet</label>
     <InputSelect @bind-Value="PackageAddModel.PackageTypeId"
                  class="form-control mb-2">
-        <option value="0"
-                disabled>Alege tipul...</option>
-        @* @foreach (var packageType in PackageTypes)
+        <option value="0" disabled>Alege tipul...</option>
+        @foreach (var packageType in PackageTypes)
         {
             <option value="@packageType.Id">@packageType.Name</option>
-        } *@
+        }
     </InputSelect>
     <button type="submit" class="btn btn-primary mt-3">Adaugă pachet</button>
 
@@ -55,15 +55,27 @@
     public int BusinessId { get; set; }
     [Inject]
     public required BusinessService BusinessService { get; set; }
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+
+    private List<PackageTypeModel> PackageTypes { get; set; } = new();
+
     public PackageAddModel PackageAddModel { get; set; } = new PackageAddModel(){
         Name = string.Empty,
         Description = string.Empty,
         Price = 0,
         PickupStart = DateTime.Now,
         PickupEnd = DateTime.Now.AddHours(2),
-        PackageTypeId = 1
     };
-    public async Task AddPackageToBusiness(){
+
+    protected override async Task OnInitializedAsync()
+    {
+        PackageTypes = await BusinessService.GetPackageTypesAsync();
+    }
+
+    public async Task AddPackageToBusiness()
+    {
         await BusinessService.AddPackageToBusiness(BusinessId, PackageAddModel);
+        NavigationManager.NavigateTo($"/business/{BusinessId}");
     }
 }

@@ -35,7 +35,7 @@ public class BusinessController : ControllerBase
         return Ok(businessesDTOs);
     }
 
-[HttpDelete("{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> Delete (int id)
     {
         var business = await _context.Business.FindAsync(id);
@@ -48,6 +48,7 @@ public class BusinessController : ControllerBase
         await _context.SaveChangesAsync();
         return NoContent();
     }
+
 
     [HttpGet("{id}")]
     public async Task<ActionResult<BusinessDetailsDTO>> GetOneById(int id)
@@ -63,6 +64,16 @@ public class BusinessController : ControllerBase
                 Description = b.Description,
                 Contact = b.Contact,
                 BusinessTypeName = b.BusinessType.Name,
+                Packages = b.Packages.Select(p => new PackageGetDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description ?? string.Empty,
+                    Price = (double)p.Price,
+                    PickupStart = p.PickupStart,
+                    PickupEnd = p.PickupEnd,
+                    PackageTypeId = p.PackageTypeId
+                }).ToList()
             })
             .FirstOrDefaultAsync(b => b.Id == id);
         if (business is null)
@@ -71,6 +82,20 @@ public class BusinessController : ControllerBase
         }
 
         return Ok(business);
+    }
+
+    [HttpGet("packageTypes")]
+    public async Task<ActionResult<IEnumerable<PackageTypeDTO>>> GetPackageTypes()
+    {
+        var packageTypes = await _context.PackageTypes
+            .Select(pt => new PackageTypeDTO
+            {
+                Id = pt.Id,
+                Name = pt.Name
+            })
+            .ToListAsync();
+
+        return Ok(packageTypes);
     }
 
     [HttpPost]
@@ -89,5 +114,43 @@ public class BusinessController : ControllerBase
         });
         await _context.SaveChangesAsync();
         return Created();
+    }
+
+    [HttpPut("{businessId}/packages/{packageId}")]
+    public async Task<IActionResult> UpdatePackage(int businessId, int packageId, [FromBody] PackageUpdateDTO package)
+    {
+        var existingPackage = await _context.Packages
+            .FirstOrDefaultAsync(p => p.Id == packageId && p.BusinessId == businessId);
+
+        if (existingPackage is null)
+        {
+            return NotFound();
+        }
+
+        existingPackage.Name = package.Name;
+        existingPackage.Description = package.Description;
+        existingPackage.Price = (decimal)package.Price;
+        existingPackage.PickupStart = package.PickupStart;
+        existingPackage.PickupEnd = package.PickupEnd;
+        existingPackage.PackageTypeId = package.PackageTypeId;
+
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
+    [HttpDelete("{businessId}/packages/{packageId}")]
+    public async Task<IActionResult> DeletePackage(int businessId, int packageId)
+    {
+        var existingPackage = await _context.Packages
+            .FirstOrDefaultAsync(p => p.Id == packageId && p.BusinessId == businessId);
+
+        if (existingPackage is null)
+        {
+            return NotFound();
+        }
+
+        _context.Packages.Remove(existingPackage);
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }

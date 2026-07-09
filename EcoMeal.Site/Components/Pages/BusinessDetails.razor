@@ -7,21 +7,74 @@
     return;
 }
 
-<div class="container my-4">
-    <h1 class="mb-3">@Business.Name</h1>
-    <p class="text-muted mb-4">@Business.Description</p>
-    <p class="text-muted mb-4"><strong>Contact:</strong> @Business.Contact</p>
-    <p class="text-muted mb-4"><strong>Tip afacere:</strong> @Business.BusinessTypeName</p>
-    <p class="text-muted mb-4"><strong>Adresa:</strong> @Business.Address</p>
+<div class="business-page">
+    <section class="business-hero">
+        <div class="hero-content">
+            <span class="hero-badge">@Business.BusinessTypeName</span>
+            <h1>@Business.Name</h1>
+            <p>@Business.Description</p>
+        </div>
+        <div class="hero-details">
+            <div class="info-card">
+                <span class="info-label">Contact</span>
+                <strong>@Business.Contact</strong>
+            </div>
+            <div class="info-card">
+                <span class="info-label">Adresă</span>
+                <strong>@Business.Address</strong>
+            </div>
+        </div>
+    </section>
 
+    <section class="packages-section">
+        <div class="section-header">
+            <div>
+                <h2>Pachete disponibile</h2>
+                <p>Explorează ofertele acestui business.</p>
+            </div>
+            <button type="button" class="btn btn-primary" @onclick="NavigateToAddPackage">
+                + Adaugă pachet
+            </button>
+        </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-        <h2 class="mb-0">Pachete</h2>
-        <button type="button"
-                class="btn btn-primary" @onclick ="NavigateToAddPackage">
-            + Add Package
-        </button>
-    </div>
+        @if (Business.Packages is { Count: > 0 })
+        {
+            <div class="packages-grid">
+                @foreach (var package in Business.Packages)
+                {
+                    <div class="package-card">
+                        <div class="package-card-body">
+                            <div class="package-top">
+                                <h5>@package.Name</h5>
+                                <span class="package-price">@package.Price.ToString("0.00") lei</span>
+                            </div>
+                            <p class="package-description">@package.Description</p>
+                            <div class="package-meta">
+                                <div>
+                                    <span class="meta-label">Pickup</span>
+                                    <strong>@package.PickupStart.ToString("dd/MM/yyyy HH:mm")</strong>
+                                </div>
+                                <div>
+                                    <span class="meta-label">Până</span>
+                                    <strong>@package.PickupEnd.ToString("dd/MM/yyyy HH:mm")</strong>
+                                </div>
+                            </div>
+                            <div class="package-actions">
+                                <button class="btn btn-outline-secondary btn-sm" @onclick="() => NavigateToEditPackage(package.Id)">Update</button>
+                                <button class="btn btn-outline-danger btn-sm ms-2" @onclick="() => DeletePackage(package.Id)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <p>Nu există pachete disponibile pentru acest business.</p>
+            </div>
+        }
+    </section>
 </div>
 
 @code {
@@ -43,5 +96,16 @@
         public void NavigateToAddPackage()
         {
             NavigationManager.NavigateTo($"/business/{Id}/addPackage");
+        }
+
+        public void NavigateToEditPackage(int packageId)
+        {
+            NavigationManager.NavigateTo($"/business/{Id}/package/{packageId}/edit");
+        }
+
+        public async Task DeletePackage(int packageId)
+        {
+            await businessService.DeletePackageAsync(Id, packageId);
+            Business = await businessService.GetOneById(Id);
         }
 }

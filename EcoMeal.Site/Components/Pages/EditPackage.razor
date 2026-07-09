@@ -1,0 +1,83 @@
+@page "/business/{BusinessId:int}/package/{PackageId:int}/edit"
+@using EcoMeal.Site.Models
+@using EcoMeal.Site.Services
+
+<h2>Edit Package</h2>
+
+@if (PackageEditModel is null)
+{
+    <p>Loading...</p>
+    return;
+}
+
+<EditForm Model="PackageEditModel" OnValidSubmit="HandleUpdate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label class="form-label">Nume</label>
+    <InputText class="form-control mb-2" @bind-Value="PackageEditModel.Name" />
+
+    <label class="form-label">Descriere</label>
+    <InputTextArea class="form-control mb-2" @bind-Value="PackageEditModel.Description" rows="4" />
+
+    <label class="form-label">Preț</label>
+    <InputNumber class="form-control mb-2" @bind-Value="PackageEditModel.Price" />
+
+    <label class="form-label">Start Pick-up</label>
+    <InputDate class="form-control mb-2" @bind-Value="PackageEditModel.PickupStart" Type="InputDateType.DateTimeLocal" />
+
+    <label class="form-label">End Pick-up</label>
+    <InputDate class="form-control mb-2" @bind-Value="PackageEditModel.PickupEnd" Type="InputDateType.DateTimeLocal" />
+
+    <label class="form-label">Tip pachet</label>
+    <InputSelect class="form-control mb-2" @bind-Value="PackageEditModel.PackageTypeId">
+        <option value="0" disabled>Alege tipul...</option>
+        @foreach (var packageType in PackageTypes)
+        {
+            <option value="@packageType.Id">@packageType.Name</option>
+        }
+    </InputSelect>
+
+    <button type="submit" class="btn btn-primary mt-3">Salvează</button>
+</EditForm>
+
+@code {
+    [Parameter] public int BusinessId { get; set; }
+    [Parameter] public int PackageId { get; set; }
+
+    [Inject] public required BusinessService BusinessService { get; set; }
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+
+    private PackageEditModel? PackageEditModel { get; set; }
+    private List<PackageTypeModel> PackageTypes { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        PackageTypes = await BusinessService.GetPackageTypesAsync();
+
+        var package = (await BusinessService.GetOneById(BusinessId))?.Packages.FirstOrDefault(p => p.Id == PackageId);
+        if (package is not null)
+        {
+            PackageEditModel = new PackageEditModel
+            {
+                Name = package.Name,
+                Description = package.Description,
+                Price = package.Price,
+                PickupStart = package.PickupStart,
+                PickupEnd = package.PickupEnd,
+                PackageTypeId = package.PackageTypeId
+            };
+        }
+    }
+
+    private async Task HandleUpdate()
+    {
+        if (PackageEditModel is null)
+        {
+            return;
+        }
+
+        await BusinessService.UpdatePackageAsync(BusinessId, PackageId, PackageEditModel);
+        NavigationManager.NavigateTo($"/business/{BusinessId}");
+    }
+}
