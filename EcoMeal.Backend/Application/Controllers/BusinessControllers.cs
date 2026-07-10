@@ -29,10 +29,48 @@ public class BusinessController : ControllerBase
                 Address = b.Address,
                 Description = b.Description,
                 Contact = b.Contact,
-                BusinessTypeName = b.BusinessType.Name
+                BusinessTypeName = b.BusinessType.Name,
+                BusinessTypeId = b.BusinessTypeId
             })
             .ToListAsync();
         return Ok(businessesDTOs);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateBusiness([FromBody] BusinessAddDTO business)
+    {
+        var newBusiness = new Business
+        {
+            Name = business.Name,
+            Address = business.Address,
+            Description = business.Description,
+            Contact = business.Contact,
+            BusinessTypeId = business.BusinessTypeId
+        };
+
+        _context.Business.Add(newBusiness);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetOneById), new { id = newBusiness.Id }, null);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBusiness(int id, [FromBody] BusinessUpdateDTO business)
+    {
+        var existingBusiness = await _context.Business.FindAsync(id);
+        if (existingBusiness is null)
+        {
+            return NotFound();
+        }
+
+        existingBusiness.Name = business.Name;
+        existingBusiness.Address = business.Address;
+        existingBusiness.Description = business.Description;
+        existingBusiness.Contact = business.Contact;
+        existingBusiness.BusinessTypeId = business.BusinessTypeId;
+
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
@@ -56,6 +94,7 @@ public class BusinessController : ControllerBase
         var business = await _context.Business
             .Include(b => b.Packages)
             .ThenInclude(p => p.PackageType)
+            .Include(b => b.BusinessType)
             .Select(b => new BusinessDetailsDTO
             {
                 Id = b.Id,
@@ -64,6 +103,7 @@ public class BusinessController : ControllerBase
                 Description = b.Description,
                 Contact = b.Contact,
                 BusinessTypeName = b.BusinessType.Name,
+                BusinessTypeId = b.BusinessTypeId,
                 Packages = b.Packages.Select(p => new PackageGetDTO
                 {
                     Id = p.Id,
@@ -82,6 +122,20 @@ public class BusinessController : ControllerBase
         }
 
         return Ok(business);
+    }
+
+    [HttpGet("businessTypes")]
+    public async Task<ActionResult<IEnumerable<BusinessTypeDTO>>> GetBusinessTypes()
+    {
+        var businessTypes = await _context.BusinessTypes
+            .Select(bt => new BusinessTypeDTO
+            {
+                Id = bt.Id,
+                Name = bt.Name
+            })
+            .ToListAsync();
+
+        return Ok(businessTypes);
     }
 
     [HttpGet("packageTypes")]

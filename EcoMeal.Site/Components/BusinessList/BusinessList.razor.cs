@@ -10,6 +10,9 @@ public partial class BusinessList
     public required BusinessService BusinessService { get; set; }
     private List<BusinessModel>? Businesses { get; set; }
 
+    [Parameter]
+    public int SelectedBusinessTypeId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         Businesses = await BusinessService.GetAllAsync();

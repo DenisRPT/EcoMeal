@@ -2,13 +2,14 @@
 @using global::EcoMeal.Site.Models
 @using global::EcoMeal.Site.Services
 
-@if(Business is null)
+@if (Business is null)
 {
-    return;
+    <p>Loading...</p>
 }
-
-<div class="business-page">
-    <section class="business-hero">
+else
+{
+    <div class="business-page">
+        <section class="business-hero">
         <div class="hero-content">
             <span class="hero-badge">@Business.BusinessTypeName</span>
             <h1>@Business.Name</h1>
@@ -22,6 +23,9 @@
             <div class="info-card">
                 <span class="info-label">Adresă</span>
                 <strong>@Business.Address</strong>
+            </div>
+            <div class="info-card align-self-start">
+                <button class="btn btn-outline-secondary" @onclick="NavigateToEditBusiness">Editează business</button>
             </div>
         </div>
     </section>
@@ -76,6 +80,7 @@
         }
     </section>
 </div>
+}
 
 @code {
         [Parameter]
@@ -107,5 +112,10 @@
         {
             await businessService.DeletePackageAsync(Id, packageId);
             Business = await businessService.GetOneById(Id);
+        }
+
+        public void NavigateToEditBusiness()
+        {
+            NavigationManager.NavigateTo($"/business/{Id}/edit");
         }
 }

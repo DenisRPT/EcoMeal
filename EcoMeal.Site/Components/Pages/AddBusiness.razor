@@ -1,0 +1,66 @@
+@page "/business/add"
+@using EcoMeal.Site.Models
+@using EcoMeal.Site.Services
+
+<h2>Adaugă Business</h2>
+
+<EditForm Model="BusinessModel" OnValidSubmit="HandleCreate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Nume</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Name" />
+        <ValidationMessage For="() => BusinessModel.Name" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Adresă</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Address" />
+        <ValidationMessage For="() => BusinessModel.Address" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descriere</label>
+        <InputTextArea class="form-control" @bind-Value="BusinessModel.Description" rows="4" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contact</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Contact" />
+        <ValidationMessage For="() => BusinessModel.Contact" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tip Business</label>
+        <InputSelect class="form-control" @bind-Value="BusinessModel.BusinessTypeId">
+            <option value="0" disabled>Alege tipul...</option>
+            @foreach (var type in BusinessTypes)
+            {
+                <option value="@type.Id">@type.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvează</button>
+</EditForm>
+
+@code {
+    [Inject] public required BusinessService BusinessService { get; set; }
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+
+    private BusinessAddModel BusinessModel { get; set; } = new BusinessAddModel();
+    private List<BusinessTypeModel> BusinessTypes { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        BusinessTypes = await BusinessService.GetBusinessTypesAsync();
+    }
+
+    private async Task HandleCreate()
+    {
+        await BusinessService.CreateBusinessAsync(BusinessModel);
+        NavigationManager.NavigateTo("/");
+    }
+}

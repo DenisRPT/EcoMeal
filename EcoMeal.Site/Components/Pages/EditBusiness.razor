@@ -1,0 +1,90 @@
+@page "/business/{Id:int}/edit"
+@using EcoMeal.Site.Models
+@using EcoMeal.Site.Services
+
+<h2>Editare Business</h2>
+
+@if (BusinessModel is null)
+{
+    <p>Loading...</p>
+    return;
+}
+
+<EditForm Model="BusinessModel" OnValidSubmit="HandleUpdate">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Nume</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Name" />
+        <ValidationMessage For="() => BusinessModel.Name" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Adresă</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Address" />
+        <ValidationMessage For="() => BusinessModel.Address" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descriere</label>
+        <InputTextArea class="form-control" @bind-Value="BusinessModel.Description" rows="4" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contact</label>
+        <InputText class="form-control" @bind-Value="BusinessModel.Contact" />
+        <ValidationMessage For="() => BusinessModel.Contact" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tip Business</label>
+        <InputSelect class="form-control" @bind-Value="BusinessModel.BusinessTypeId">
+            <option value="0" disabled>Alege tipul...</option>
+            @foreach (var type in BusinessTypes)
+            {
+                <option value="@type.Id">@type.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Actualizează</button>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    [Inject] public required BusinessService BusinessService { get; set; }
+    [Inject] public required NavigationManager NavigationManager { get; set; }
+
+    private BusinessUpdateModel? BusinessModel { get; set; }
+    private List<BusinessTypeModel> BusinessTypes { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        BusinessTypes = await BusinessService.GetBusinessTypesAsync();
+        var business = await BusinessService.GetOneById(Id);
+        if (business is not null)
+        {
+            BusinessModel = new BusinessUpdateModel
+            {
+                Name = business.Name,
+                Address = business.Address,
+                Description = business.Description,
+                Contact = business.Contact,
+                BusinessTypeId = business.BusinessTypeId
+            };
+        }
+    }
+
+    private async Task HandleUpdate()
+    {
+        if (BusinessModel is null)
+        {
+            return;
+        }
+
+        await BusinessService.UpdateBusinessAsync(Id, BusinessModel);
+        NavigationManager.NavigateTo($"/business/{Id}");
+    }
+}

@@ -28,10 +28,28 @@ public class BusinessService
         return business;
     }
 
+    public async Task CreateBusinessAsync(BusinessAddModel business)
+    {
+        var response = await _http.PostAsJsonAsync("api/business", business);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task UpdateBusinessAsync(int businessId, BusinessUpdateModel business)
+    {
+        var response = await _http.PutAsJsonAsync($"api/business/{businessId}", business);
+        response.EnsureSuccessStatusCode();
+    }
+
     public async Task AddPackageToBusiness(int businessId, PackageAddModel PackageAddModel)
     {
         var response = await _http.PostAsJsonAsync($"api/business/{businessId}/addPackage", PackageAddModel);
         response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<List<BusinessTypeModel>> GetBusinessTypesAsync()
+    {
+        var businessTypes = await _http.GetFromJsonAsync<List<BusinessTypeModel>>("api/business/businessTypes");
+        return businessTypes ?? new List<BusinessTypeModel>();
     }
 
     public async Task<List<PackageTypeModel>> GetPackageTypesAsync()
