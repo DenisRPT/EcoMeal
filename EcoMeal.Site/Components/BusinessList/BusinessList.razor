@@ -3,16 +3,54 @@
 @namespace EcoMeal.Site.Components.BusinessList
 @rendermode InteractiveServer
 
-
-@if(Businesses is null){
+@if (Businesses is null)
+{
     <p>Loading...</p>
 }
-else{
-    <div class="row g-4">
-        @foreach(BusinessModel business in Businesses){
-        <div class = "col-12 col-md-6 col-lg-4">
-            <BusinessCard Business="business" OnDeleted="HandleDeleted" />
-        </div>
+else
+{
+    @if (GroupedBusinesses is null || !GroupedBusinesses.Any())
+    {
+        <div class="alert alert-secondary">Nu există business-uri care să corespundă criteriilor de căutare.</div>
     }
-    </div>
+    else
+    {
+        <div class="mb-4">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <button class="btn btn-sm @(string.IsNullOrEmpty(SelectedType) ? "btn-primary" : "btn-outline-secondary")" @onclick="ClearSelectedType">
+                    Toate categoriile
+                </button>
+                @foreach (var type in BusinessTypeNames)
+                {
+                    <button class="btn btn-sm @(SelectedType == type ? "btn-primary" : "btn-outline-secondary")" @onclick="() => SelectType(type)">
+                        @type (@GroupedBusinesses?[type]?.Count)
+                    </button>
+                }
+            </div>
+        </div>
+        @foreach (var group in GroupedBusinesses)
+        {
+            if (!string.IsNullOrEmpty(SelectedType) && group.Key != SelectedType)
+            {
+                continue;
+            }
+
+            <section class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h3 class="h5 mb-1">@group.Key</h3>
+                        <p class="text-muted mb-0">@group.Value.Count business-uri</p>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    @foreach (var business in group.Value)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <BusinessCard Business="business" OnDeleted="HandleDeleted" />
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+    }
 }

@@ -1,13 +1,16 @@
 @namespace EcoMeal.Site.Components.BusinessCard
+@using Microsoft.AspNetCore.Components.Authorization
 
-<div class="card" @onclick="NavigateToDetails" style="width: 18rem;">
+<div class="card h-100" @onclick="NavigateToDetails">
   <div class="card-body">
     <h5 class="card-title">@Business.Name</h5>
     <p class="card-text">@Business.Description</p>
     <p class="card-text">@Business.Address</p>
     <p class="card-text">@Business.Contact</p>
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-sm btn-danger" @onclick="Delete" @onclick:stopPropagation="true">Delete</button>
+      <AuthorizeView Roles ="Admin">
+        <button type="button" class="btn btn-sm btn-danger" @onclick="Delete" @onclick:stopPropagation="true">Delete</button>
+      </AuthorizeView>
     </div>
   </div>
 </div>

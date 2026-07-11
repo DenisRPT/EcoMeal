@@ -1,13 +1,53 @@
-.card[b-6vtvzu0aj6]{
-    margin:auto;
-    background-color:hsla(121, 100%, 79%, 0.108);
-    border-color:hsl(122, 98%, 16%);
-    text-align:center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.card[b-6vtvzu0aj6] {
+    width: 100%;
+    max-width: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
-.card:hover[b-6vtvzu0aj6]{
-    background-color: hsla(121, 100%, 79%, 0.714);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+.theme-dark .card[b-6vtvzu0aj6] {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card:hover[b-6vtvzu0aj6] {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+    background: linear-gradient(180deg, #1f5c3282, #6abf774b);
+}
+
+.theme-dark .card:hover[b-6vtvzu0aj6]{
+    background : linear-gradient(180deg, #111827, #0a2611);
+}
+
+
+.card-body[b-6vtvzu0aj6] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+}
+
+.card-title[b-6vtvzu0aj6] {
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.theme-dark .card-title[b-6vtvzu0aj6] {
+    color: #f8fafc;
+}
+
+.card-text[b-6vtvzu0aj6] {
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+}
+
+.theme-dark .card-text[b-6vtvzu0aj6] {
+    color: #cbd5e1;
 }

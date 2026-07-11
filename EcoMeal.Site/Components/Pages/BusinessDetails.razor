@@ -1,4 +1,5 @@
 @page "/business/{Id:int}"
+@using Microsoft.AspNetCore.Components.Authorization
 @using global::EcoMeal.Site.Models
 @using global::EcoMeal.Site.Services
 
@@ -24,9 +25,11 @@ else
                 <span class="info-label">Adresă</span>
                 <strong>@Business.Address</strong>
             </div>
+            <AuthorizeView Roles="Admin">
             <div class="info-card align-self-start">
-                <button class="btn btn-outline-secondary" @onclick="NavigateToEditBusiness">Editează business</button>
+                <button class="btn btn-outline-secondary btn-md" @onclick="NavigateToEditBusiness">Edit</button>
             </div>
+            </AuthorizeView>
         </div>
     </section>
 
@@ -36,9 +39,11 @@ else
                 <h2>Pachete disponibile</h2>
                 <p>Explorează ofertele acestui business.</p>
             </div>
+            <AuthorizeView Roles="Admin">
             <button type="button" class="btn btn-primary" @onclick="NavigateToAddPackage">
                 + Adaugă pachet
             </button>
+            </AuthorizeView>
         </div>
 
         @if (Business.Packages is { Count: > 0 })
@@ -63,10 +68,12 @@ else
                                     <strong>@package.PickupEnd.ToString("dd/MM/yyyy HH:mm")</strong>
                                 </div>
                             </div>
+                            <AuthorizeView Roles="Admin">
                             <div class="package-actions">
                                 <button class="btn btn-outline-secondary btn-sm" @onclick="() => NavigateToEditPackage(package.Id)">Update</button>
                                 <button class="btn btn-outline-danger btn-sm ms-2" @onclick="() => DeletePackage(package.Id)">Delete</button>
                             </div>
+                            </AuthorizeView>
                         </div>
                     </div>
                 }

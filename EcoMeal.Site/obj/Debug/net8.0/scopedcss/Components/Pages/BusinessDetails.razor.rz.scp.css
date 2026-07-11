@@ -54,6 +54,16 @@
     backdrop-filter: blur(6px);
 }
 
+.info-card .btn-outline-secondary[b-jj5ocresa3]{
+    background-color:hsla(50, 41%, 47%, 0.616);
+    color:hsl(0, 0%, 100%);
+}
+
+.info-card .btn-outline-secondary:hover[b-jj5ocresa3]{
+    background-color:hsla(50, 73%, 47%, 0.616);
+    color:hsl(0, 0%, 100%);
+}
+
 .info-label[b-jj5ocresa3] {
     display: block;
     font-size: 0.8rem;
