@@ -14,6 +14,7 @@
                             <span class="brand-emoji">🍃</span>
                             <span class="brand-eco">Eco</span><span class="brand-meal">Meal</span>
                         </a>
+                        
 
                         <div class="flex-fill d-none d-md-flex">
                             <div class="input-group input-group-sm w-100 search-input-group">
@@ -21,6 +22,29 @@
                                 <input class="form-control form-control-sm search-control" type="search" placeholder="Caută business..." @bind="SearchState.Query" @bind:event="oninput" aria-label="Căutare business" />
                             </div>
                         </div>
+
+<button class="btn btn-sm d-md-none" data-bs-toggle="modal" data-bs-target="#searchModal">
+    🔍
+</button>
+
+<div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-text border-0">🔍</span>
+                    <input class="form-control" 
+                           type="search" 
+                           placeholder="Caută business..." 
+                           @bind="SearchState.Query" 
+                           @bind:event="oninput" 
+                           autofocus />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                        
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
@@ -29,6 +53,7 @@
                         </button>
                         @if (AuthService.IsAuthenticated)
                         {
+                            <a class="btn btn-outline-secondary btn-sm me-2" href ="/orders">Comenzi</a>
                             <button class="btn btn-sm btn-outline-light" @onclick="HandleLogout">Logout</button>
                         }
                         else
@@ -55,6 +80,8 @@
 </div>
 
 @code {
+    private bool showMobileSearch = false;
+
     private bool isDarkTheme = false;
 
     public Models.Auth.UserMeResponse? User { get; set; }
@@ -80,4 +107,10 @@
         await AuthService.LogoutAsync();
         Navigation.NavigateTo("/", forceLoad: true);
     }
+
+    private void ToggleMobileSearch()
+    {
+        showMobileSearch = !showMobileSearch;
+    }
+
 }

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.Extensions.Logging;
@@ -48,6 +49,11 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         catch (InvalidOperationException ex)
         {
             _logger.LogWarning(ex, "Failed to retrieve authentication state from local storage. This is expected during pre-rendering.");
+            return new AuthenticationState(_anonymous);
+        }
+        catch (CryptographicException ex)
+        {
+            _logger.LogWarning(ex, "Stored token could not be decrypted (Data Protection keys changed). Treating user as anonymous.");
             return new AuthenticationState(_anonymous);
         }
     }

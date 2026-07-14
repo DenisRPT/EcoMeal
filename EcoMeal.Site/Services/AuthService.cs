@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using EcoMeal.Site.Models.Auth;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using System.Security.Cryptography;
 
 namespace EcoMeal.Site.Services;
 
@@ -66,20 +67,32 @@ public class AuthService
         return AuthResult.Fail("Invalid email or password.");
     }
 
-    public async Task LoadTokenAsync()
+   public async Task LoadTokenAsync()
     {
-        var tokenResult = await _localStorage.GetAsync<string>("authToken");
-        Token = tokenResult.Success ? tokenResult.Value : null;
-
-        if (Token != null)
+        try
         {
-            var rolesResult = await _localStorage.GetAsync<List<string>>("userRoles");
-            var roles = rolesResult.Success && rolesResult.Value != null ? rolesResult.Value : new List<string>();
+            var tokenResult = await _localStorage.GetAsync<string>("authToken");
+            Token = tokenResult.Success ? tokenResult.Value : null;
 
-            if (_authStateProvider is CustomAuthenticationStateProvider customProvider)
+            if (Token != null)
             {
-                customProvider.NotifyUserAuthentication(Token, roles);
+                var rolesResult = await _localStorage.GetAsync<List<string>>("userRoles");
+                var roles = rolesResult.Success && rolesResult.Value != null ? rolesResult.Value : new List<string>();
+
+                if (_authStateProvider is CustomAuthenticationStateProvider customProvider)
+                {
+                    customProvider.NotifyUserAuthentication(Token, roles);
+                }
             }
+        }
+        catch (CryptographicException)
+        {
+            // The stored token was encrypted with different Data Protection keys
+            // (e.g. after an app restart that regenerated the keys). Treat it as logged
+            // out and clear the invalid data instead of crashing the circuit.
+            Token = null;
+            await _localStorage.DeleteAsync("authToken");
+            await _localStorage.DeleteAsync("userRoles");
         }
     }
 

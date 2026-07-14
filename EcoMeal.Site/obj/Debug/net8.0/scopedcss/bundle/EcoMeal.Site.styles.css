@@ -533,3 +533,65 @@ main[b-divn5014ok] {
     }
 }
 /* /Components/Pages/Home.razor.rz.scp.css */
+/* /Components/Pages/Login.razor.rz.scp.css */
+
+.login-page-container[b-dpfdf9tioo] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.login-card[b-dpfdf9tioo] {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #e0e0e0;
+}
+
+.login-card h3[b-dpfdf9tioo] {
+    color: #064e3b;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-control[b-dpfdf9tioo] {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus[b-dpfdf9tioo] {
+    border-color: #064e3b;
+    box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
+}
+
+.btn-primary[b-dpfdf9tioo] {
+    background-color: #064e3b;
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover[b-dpfdf9tioo] {
+    background-color: #047857;
+}
+
+.login-card a[b-dpfdf9tioo] {
+    color: #064e3b;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-card a:hover[b-dpfdf9tioo] {
+    text-decoration: underline;
+}
