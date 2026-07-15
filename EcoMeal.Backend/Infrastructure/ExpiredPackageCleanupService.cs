@@ -25,7 +25,7 @@ public class ExpiredPackageCleanupService : BackgroundService
 
                 var now = DateTime.UtcNow;
                 var expired = await db.Packages
-                    .Where(p => p.PickupEnd <= now)
+                    .Where(p => p.PickupEnd <= now && !p.Orders.Any())
                     .ToListAsync(stoppingToken);
 
                 if (expired.Any())

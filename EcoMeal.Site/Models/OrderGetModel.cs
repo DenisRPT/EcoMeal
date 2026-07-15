@@ -9,6 +9,7 @@ public class OrderGetModel
     public string? UserName{get;set;}
     public string? UserContact{get;set;}
     public string Status{get;set;} = "";
+    public string SelectedStatus{get;set;} = "";
     public double Price{get;set;}
     public int BusinessID{get;set;}
 }

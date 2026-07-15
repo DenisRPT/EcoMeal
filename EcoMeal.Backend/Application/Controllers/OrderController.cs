@@ -113,6 +113,28 @@ public class OrderController:ControllerBase
 
         return Ok(orders);
     }
+
+    [HttpPut("{id}/status")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderStatusUpdateDTO request)
+    {
+        if (!Enum.TryParse<OrderStatus>(request.Status, true, out var status))
+        {
+            return BadRequest("Status invalid");
+        }
+
+        var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
+        if (order is null)
+        {
+            return NotFound("Comanda nu a fost gasita");
+        }
+
+        order.Status = status;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private int GetCurrentUserId()
     {
         var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);

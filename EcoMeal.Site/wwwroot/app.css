@@ -81,7 +81,8 @@ h1:focus {
     align-items: center;
     min-height: 80vh;
     padding: 20px;
-    background-color: #f9fafb; 
+    background-color: #26b04f21;
+    border-radius: 12px;
 }
 
 .form-container {
@@ -143,7 +144,7 @@ h1:focus {
 }
 
 .theme-dark .form-page-layout {
-    background-color: #050b14;
+    background-color: #064e3b31;
 }
 
 .theme-dark .form-input {

@@ -2,6 +2,7 @@
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
 
 <AuthorizeView Roles="Admin">
     <Authorized>
@@ -20,38 +21,54 @@
             }
             else
             {
-                <div class="table-responsive admin-table-wrapper">
-                    <table class="table admin-table mb-0">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Pachet</th>
-                                <th>Business</th>
-                                <th>Utilizator</th>
-                                <th>Contact</th>
-                                <th>Dată</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var o in Orders)
-                            {
+                <div class="admin-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="table admin-table mb-0">
+                            <thead>
                                 <tr>
-                                    <td class="fw-medium text-muted">#@o.Id</td>
-                                    <td class="fw-bold">@o.PackageName</td>
-                                    <td>@o.BusinessName</td>
-                                    <td>@o.UserName</td>
-                                    <td>@o.UserContact</td>
-                                    <td>@o.Date.ToString("dd.MM.yyyy HH:mm")</td>
-                                    <td>
-                                        <span class="badge rounded-pill order-badge bg-secondary opacity-75">
-                                            @o.Status
-                                        </span>
-                                    </td>
+                                    <th>Id</th>
+                                    <th>Pachet</th>
+                                    <th>Business</th>
+                                    <th>Utilizator</th>
+                                    <th>Contact</th>
+                                    <th>Dată</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Acțiuni</th> 
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var o in Orders)
+                                {
+                                    <tr>
+                                        <td class="fw-medium text-muted align-middle">#@o.Id</td>
+                                        <td class="fw-bold align-middle">@o.PackageName</td>
+                                        <td class="align-middle">@o.BusinessName</td>
+                                        <td class="align-middle">@o.UserName</td>
+                                        <td class="align-middle">@o.UserContact</td>
+                                        <td class="align-middle">@o.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td class="align-middle">
+                                            <span class="badge rounded-pill order-badge @GetBadgeClass(o.Status)">
+                                                @o.Status
+                                            </span>
+                                        </td>
+                                        <td class="text-center text-nowrap align-middle">
+                                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                                <select class="form-select form-select-sm order-status-select w-auto mb-0" @bind="o.SelectedStatus">
+                                                    @foreach (var status in StatusOptions)
+                                                    {
+                                                        <option value="@status">@status</option>
+                                                    }
+                                                </select>
+                                                <button class="btn btn-sm btn-primary order-save-btn m-0" disabled="@IsSaving(o.Id)" @onclick="() => UpdateStatusAsync(o)">
+                                                    @(IsSaving(o.Id) ? "Se salvează..." : "Salvează")
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             }
         </div>
@@ -70,9 +87,53 @@
     public required OrderService orderService { get; set; }
 
     private List<OrderGetModel>? Orders;
+    private readonly string[] StatusOptions = ["Rezervat", "Finalizat", "Anulat"];
+    private readonly HashSet<int> SavingOrders = new();
 
     protected override async Task OnInitializedAsync()
     {
         Orders = await orderService.GetAllOrdersForAdminAsync();
+        foreach (var order in Orders)
+        {
+            order.SelectedStatus = order.Status;
+        }
+    }
+
+    private async Task UpdateStatusAsync(OrderGetModel order)
+    {
+        if (string.IsNullOrWhiteSpace(order.SelectedStatus) || order.SelectedStatus == order.Status)
+        {
+            return;
+        }
+
+        SavingOrders.Add(order.Id);
+        try
+        {
+            var updated = await orderService.UpdateOrderStatusAsync(order.Id, order.SelectedStatus);
+            if (updated)
+            {
+                order.Status = order.SelectedStatus;
+            }
+        }
+        finally
+        {
+            SavingOrders.Remove(order.Id);
+        }
+    }
+
+    private bool IsSaving(int orderId)
+    {
+        return SavingOrders.Contains(orderId);
+    }
+
+    private static string GetBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Rezervat" => "bg-info text-dark",
+            "Finalizat" => "bg-success text-white",
+            "Anulat" => "bg-danger text-white",
+            _ => "bg-light text-dark",
+        };
     }
 }

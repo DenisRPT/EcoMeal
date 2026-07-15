@@ -49,6 +49,19 @@ public class OrderService
         return orders ?? new List<OrderGetModel>();
     }
 
+    public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Put, $"api/order/{orderId}/status")
+        {
+            Content = JsonContent.Create(new { Status = status })
+        };
+
+        await AddAuthHeaderAsync(request);
+
+        var response = await _http.SendAsync(request);
+        return response.IsSuccessStatusCode;
+    }
+
 
     private async Task AddAuthHeaderAsync(HttpRequestMessage request)
     {

@@ -24,9 +24,26 @@ public class EcoMealDbContext : IdentityDbContext<User,IdentityRole<int>,int>
         .HasOne(p => p.BusinessType)
         .WithMany(p => p.Businesses)
         .HasForeignKey(p => p.BusinessTypeId);
-        // store OrderStatus as string
         modelBuilder.Entity<Order>()
             .Property(o => o.Status)
-            .HasConversion<string>();
+            .HasConversion(
+                status => status.ToString(),
+                value => MapOrderStatus(value));
+    }
+
+    private static OrderStatus MapOrderStatus(string value)
+    {
+        return value switch
+        {
+            "Plasata" => OrderStatus.Rezervat,
+            "Rezervat" => OrderStatus.Rezervat,
+            "Preluata" => OrderStatus.Finalizat,
+            "Livrat" => OrderStatus.Finalizat,
+            "Finalizat" => OrderStatus.Finalizat,
+            "Anulata" => OrderStatus.Anulat,
+            "Anulat" => OrderStatus.Anulat,
+            "Expirata" => OrderStatus.Anulat,
+            _ => OrderStatus.Rezervat
+        };
     }
 }
