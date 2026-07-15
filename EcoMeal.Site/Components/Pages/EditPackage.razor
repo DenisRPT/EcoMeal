@@ -2,7 +2,7 @@
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 
-<h2>Edit Package</h2>
+<h2 class="page-title">Edit Package</h2>
 
 @if (PackageEditModel is null)
 {
@@ -10,36 +10,54 @@
     return;
 }
 
-<EditForm Model="PackageEditModel" OnValidSubmit="HandleUpdate">
+<div class="card-form">
+    <div class="card">
+        <div class="card-body">
+            <EditForm Model="PackageEditModel" OnValidSubmit="HandleUpdate">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <label class="form-label">Nume</label>
-    <InputText class="form-control mb-2" @bind-Value="PackageEditModel.Name" />
+    <div class="mb-3">
+        <label class="form-label">Nume</label>
+        <InputText class="form-control" @bind-Value="PackageEditModel.Name" />
+    </div>
 
-    <label class="form-label">Descriere</label>
-    <InputTextArea class="form-control mb-2" @bind-Value="PackageEditModel.Description" rows="4" />
+    <div class="mb-3">
+        <label class="form-label">Descriere</label>
+        <InputTextArea class="form-control" @bind-Value="PackageEditModel.Description" rows="4" />
+    </div>
 
-    <label class="form-label">Preț</label>
-    <InputNumber class="form-control mb-2" @bind-Value="PackageEditModel.Price" />
+    <div class="mb-3">
+        <label class="form-label">Preț</label>
+        <InputNumber class="form-control" @bind-Value="PackageEditModel.Price" />
+    </div>
 
-    <label class="form-label">Start Pick-up</label>
-    <InputDate class="form-control mb-2" @bind-Value="PackageEditModel.PickupStart" Type="InputDateType.DateTimeLocal" />
+    <div class="mb-3">
+        <label class="form-label">Start Pick-up</label>
+        <InputDate class="form-control" @bind-Value="PackageEditModel.PickupStart" Type="InputDateType.DateTimeLocal" />
+    </div>
 
-    <label class="form-label">End Pick-up</label>
-    <InputDate class="form-control mb-2" @bind-Value="PackageEditModel.PickupEnd" Type="InputDateType.DateTimeLocal" />
+    <div class="mb-3">
+        <label class="form-label">End Pick-up</label>
+        <InputDate class="form-control" @bind-Value="PackageEditModel.PickupEnd" Type="InputDateType.DateTimeLocal" />
+    </div>
 
-    <label class="form-label">Tip pachet</label>
-    <InputSelect class="form-control mb-2" @bind-Value="PackageEditModel.PackageTypeId">
-        <option value="0" disabled>Alege tipul...</option>
-        @foreach (var packageType in PackageTypes)
-        {
-            <option value="@packageType.Id">@packageType.Name</option>
-        }
-    </InputSelect>
+    <div class="mb-3">
+        <label class="form-label">Tip pachet</label>
+        <InputSelect class="form-control" @bind-Value="PackageEditModel.PackageTypeId">
+            <option value="0" disabled>Alege tipul...</option>
+            @foreach (var packageType in PackageTypes)
+            {
+                <option value="@packageType.Id">@packageType.Name</option>
+            }
+        </InputSelect>
+    </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Salvează</button>
-</EditForm>
+                <button type="submit" class="btn btn-primary">Salvează</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter] public int BusinessId { get; set; }

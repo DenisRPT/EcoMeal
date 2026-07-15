@@ -34,6 +34,10 @@ else
     </section>
 
     <section class="packages-section">
+        @if (!string.IsNullOrEmpty(FeedbackMessage))
+        {
+            <div class="alert @FeedbackClass" role="alert">@FeedbackMessage</div>
+        }
         <div class="section-header">
             <div>
                 <h2>Pachete disponibile</h2>
@@ -68,11 +72,18 @@ else
                                     <strong>@package.PickupEnd.ToString("dd/MM/yyyy HH:mm")</strong>
                                 </div>
                             </div>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <div class="package-actions">
+                                        <button class="btn btn-primary btn-sm" @onclick="() => ReservePackage(package.Id)">Rezervă</button>
+                                    </div>
+                                </Authorized>
+                            </AuthorizeView>
                             <AuthorizeView Roles="Admin">
-                            <div class="package-actions">
-                                <button class="btn btn-outline-secondary btn-sm" @onclick="() => NavigateToEditPackage(package.Id)">Update</button>
-                                <button class="btn btn-outline-danger btn-sm ms-2" @onclick="() => DeletePackage(package.Id)">Delete</button>
-                            </div>
+                                <div class="package-actions">
+                                    <button class="btn btn-outline-secondary btn-sm" @onclick="() => NavigateToEditPackage(package.Id)">Update</button>
+                                    <button class="btn btn-outline-danger btn-sm ms-2" @onclick="() => DeletePackage(package.Id)">Delete</button>
+                                </div>
                             </AuthorizeView>
                         </div>
                     </div>
@@ -96,9 +107,13 @@ else
         [Inject]
         public required BusinessService businessService { get; set; }
         [Inject]
+        public required OrderService orderService { get; set; }
+        [Inject]
         public required NavigationManager NavigationManager { get; set; } 
 
         private BusinessDetailsModel? Business;
+        private string? FeedbackMessage;
+        private string? FeedbackClass;
 
         protected override async Task OnInitializedAsync()
         {
@@ -119,6 +134,43 @@ else
         {
             await businessService.DeletePackageAsync(Id, packageId);
             Business = await businessService.GetOneById(Id);
+        }
+
+        public async Task ReservePackage(int packageId)
+        {
+            try
+            {
+                var ok = await orderService.PlaceOrderAsync(packageId);
+                if (ok)
+                {
+                    if (Business != null)
+                    {
+                        var pkg = Business.Packages.FirstOrDefault(p => p.Id == packageId);
+                        if (pkg != null)
+                        {
+                            Business.Packages.Remove(pkg);
+                        }
+                    }
+                    FeedbackMessage = "Pachet rezervat cu succes.";
+                    FeedbackClass = "alert-success";
+                }
+                else
+                {
+                    FeedbackMessage = "Eroare la rezervare.";
+                    FeedbackClass = "alert-danger";
+                }
+            }
+            catch (Exception)
+            {
+                FeedbackMessage = "Eroare la rezervare.";
+                FeedbackClass = "alert-danger";
+            }
+
+            StateHasChanged();
+            await Task.Delay(3000);
+            FeedbackMessage = null;
+            FeedbackClass = null;
+            StateHasChanged();
         }
 
         public void NavigateToEditBusiness()

@@ -1,5 +1,5 @@
 
-.login-page-container {
+.login-page-container[b-rv1pro0cpo] {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
     padding: 20px;
 }
 
-.login-card {
+.login-card[b-rv1pro0cpo] {
     background: #ffffff;
     padding: 2.5rem;
     border-radius: 12px;
@@ -18,32 +18,32 @@
 }
 
 
-.login-card h3 {
+.login-card h3[b-rv1pro0cpo] {
     color: #064e3b;
     margin-bottom: 1.5rem;
     text-align: center;
     font-weight: 600;
 }
 
-.theme-dark .login-card {
+.theme-dark .login-card[b-rv1pro0cpo] {
     background: #0b1220;
     border-color: #213543;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
-.form-control {
+.form-control[b-rv1pro0cpo] {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     padding: 0.75rem;
     transition: border-color 0.2s;
 }
 
-.form-control:focus {
+.form-control:focus[b-rv1pro0cpo] {
     border-color: #064e3b;
     box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1);
 }
 
-.btn-primary {
+.btn-primary[b-rv1pro0cpo] {
     background-color: #064e3b;
     border: none;
     width: 100%;
@@ -53,16 +53,16 @@
     transition: background 0.3s;
 }
 
-.btn-primary:hover {
+.btn-primary:hover[b-rv1pro0cpo] {
     background-color: #047857;
 }
 
-.login-card a {
+.login-card a[b-rv1pro0cpo] {
     color: #064e3b;
     text-decoration: none;
     font-weight: 500;
 }
 
-.login-card a:hover {
+.login-card a:hover[b-rv1pro0cpo] {
     text-decoration: underline;
 }

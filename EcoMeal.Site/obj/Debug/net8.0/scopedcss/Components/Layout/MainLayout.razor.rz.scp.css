@@ -7,6 +7,12 @@
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+header.sticky-top[b-divn5014ok] {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+}
+
 .theme-light[b-divn5014ok] {
     background: #f5f7fa;
     color: #111827;
@@ -18,7 +24,6 @@
 }
 
 nav.navbar[b-divn5014ok] {
-    position: sticky;
     top: 0;
     z-index: 1100;
     min-height: 5rem;
@@ -78,7 +83,6 @@ nav.navbar[b-divn5014ok] {
     min-width: 5rem;
 }
 
-/* Minimalist search input */
 .search-input-group[b-divn5014ok] {
     max-width: 540px;
     border-radius: 999px;
@@ -106,7 +110,6 @@ nav.navbar[b-divn5014ok] {
     color: rgba(255,255,255,0.75);
 }
 
-/* Make buttons fully rounded */
 .btn[b-divn5014ok] {
     border-radius: 999px !important;
 }

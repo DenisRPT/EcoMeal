@@ -1,0 +1,112 @@
+
+.orders-page-container[b-n1kdl26x5p] {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.orders-page-container .page-title[b-n1kdl26x5p] {
+    color: #064e3b;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.orders-list[b-n1kdl26x5p] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-card[b-n1kdl26x5p] {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover[b-n1kdl26x5p] {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(6, 78, 59, 0.08);
+}
+
+.order-info[b-n1kdl26x5p] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.order-title[b-n1kdl26x5p] {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1f3b2d;
+    margin: 0;
+}
+
+.order-business[b-n1kdl26x5p] {
+    font-size: 0.9rem;
+    color: #64706c;
+    margin: 0;
+    font-weight: 500;
+}
+
+.order-date[b-n1kdl26x5p] {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.order-meta[b-n1kdl26x5p] {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.order-price[b-n1kdl26x5p] {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #064e3b;
+}
+
+.order-badge[b-n1kdl26x5p] {
+    font-weight: 600;
+    padding: 0.4em 0.85em;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.theme-dark .orders-page-container .page-title[b-n1kdl26x5p] {
+    color: #f8fafc;
+}
+
+.theme-dark .order-card[b-n1kdl26x5p] {
+    background: #111827;
+    border-color: #1e293b;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .order-card:hover[b-n1kdl26x5p] {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.theme-dark .order-title[b-n1kdl26x5p] {
+    color: #f8fafc;
+}
+
+.theme-dark .order-business[b-n1kdl26x5p] {
+    color: #94a3b8;
+}
+
+.theme-dark .order-date[b-n1kdl26x5p] {
+    color: #64748b;
+}
+
+.theme-dark .order-price[b-n1kdl26x5p] {
+    color: #86efac;
+}

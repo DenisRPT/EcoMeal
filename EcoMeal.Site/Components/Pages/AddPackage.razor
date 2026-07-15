@@ -3,52 +3,56 @@
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 
-<h2>Add Package</h2>
 
-<EditForm Model="PackageAddModel" OnValidSubmit="AddPackageToBusiness">
-    <DataAnnotationsValidator/>
-    <ValidationSummary />
-    <label class="form-label">Nume</label>
-    <InputText class="form-control mb-2"
-               @bind-Value="PackageAddModel.Name"
-               placeholder="Adauga nume pachet" />
-    <ValidationMessage For="@(() => PackageAddModel.Name)" />
+<div class="form-page-layout">
+    <div class="form-container">
+        <h2 class="form-title mb-4">Add Package</h2>
 
-    <label class="form-label">Descriere</label>
-    <InputTextArea @bind-Value="PackageAddModel.Description"
-                   placeholder="Descriere"
-                   rows="4"
-                   class="form-control mb-2" />
+        <EditForm Model="PackageAddModel" OnValidSubmit="AddPackageToBusiness">
+            <DataAnnotationsValidator/>
+            <ValidationSummary />
 
-    <label class="form-label">Pret</label>
-    <InputNumber @bind-Value="PackageAddModel.Price"
-                 placeholder="Pret"
-                 class="form-control mb-2" />
+            <div class="mb-3">
+                <label class="form-label text-muted">Nume</label>
+                <InputText class="form-input" @bind-Value="PackageAddModel.Name" placeholder="Adaugă nume pachet" />
+                <ValidationMessage For="() => PackageAddModel.Name" />
+            </div>
 
-    <label class="form-label">Start Pick-up</label>
-    <InputDate @bind-Value="PackageAddModel.PickupStart"
-               Type="InputDateType.DateTimeLocal"
-               placeholder="Start Pick-up"
-               class="form-control mb-2" />
+            <div class="mb-3">
+                <label class="form-label text-muted">Descriere</label>
+                <InputTextArea class="form-input" @bind-Value="PackageAddModel.Description" rows="4" placeholder="Descriere" />
+            </div>
 
-    <label class="form-label">End Pick-up</label>
-    <InputDate @bind-Value="PackageAddModel.PickupEnd"
-               Type="InputDateType.DateTimeLocal"
-               placeholder="End Pick-up"
-               class="form-control mb-2" />
+            <div class="mb-3">
+                <label class="form-label text-muted">Preț</label>
+                <InputNumber class="form-input" @bind-Value="PackageAddModel.Price" placeholder="Preț" />
+            </div>
 
-    <label class="form-label">Tip pachet</label>
-    <InputSelect @bind-Value="PackageAddModel.PackageTypeId"
-                 class="form-control mb-2">
-        <option value="0" disabled>Alege tipul...</option>
-        @foreach (var packageType in PackageTypes)
-        {
-            <option value="@packageType.Id">@packageType.Name</option>
-        }
-    </InputSelect>
-    <button type="submit" class="btn btn-primary mt-3">Adaugă pachet</button>
+            <div class="mb-3">
+                <label class="form-label text-muted">Start Pick-up</label>
+                <InputDate class="form-input" @bind-Value="PackageAddModel.PickupStart" Type="InputDateType.DateTimeLocal" />
+            </div>
 
-</EditForm>
+            <div class="mb-3">
+                <label class="form-label text-muted">End Pick-up</label>
+                <InputDate class="form-input" @bind-Value="PackageAddModel.PickupEnd" Type="InputDateType.DateTimeLocal" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Tip pachet</label>
+                <InputSelect class="form-input" @bind-Value="PackageAddModel.PackageTypeId">
+                    <option value="0" disabled>Alege tipul...</option>
+                    @foreach (var packageType in PackageTypes)
+                    {
+                        <option value="@packageType.Id">@packageType.Name</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <button type="submit" class="btn-action mt-3">Adaugă pachet</button>
+        </EditForm>
+    </div>
+</div>
 
 @code{
     [Parameter]

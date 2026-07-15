@@ -2,49 +2,48 @@
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 
-<h2>Adaugă Business</h2>
+<div class="form-page-layout">
+    <div class="form-container">
+        <h2 class="form-title">Adaugă Business</h2>
 
-<EditForm Model="BusinessModel" OnValidSubmit="HandleCreate">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <EditForm Model="BusinessModel" OnValidSubmit="HandleCreate">
+            <DataAnnotationsValidator />
 
-    <div class="mb-3">
-        <label class="form-label">Nume</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Name" />
-        <ValidationMessage For="() => BusinessModel.Name" />
+            <div class="mb-3">
+                <label class="form-label">Nume</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Adresă</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Address" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descriere</label>
+                <InputTextArea class="form-input" @bind-Value="BusinessModel.Description" rows="4" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contact</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Contact" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tip Business</label>
+                <InputSelect class="form-input" @bind-Value="BusinessModel.BusinessTypeId">
+                    <option value="0" disabled>Alege tipul...</option>
+                    @foreach (var type in BusinessTypes)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <button type="submit" class="btn-action">Salvează</button>
+        </EditForm>
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Adresă</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Address" />
-        <ValidationMessage For="() => BusinessModel.Address" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Descriere</label>
-        <InputTextArea class="form-control" @bind-Value="BusinessModel.Description" rows="4" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Contact</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Contact" />
-        <ValidationMessage For="() => BusinessModel.Contact" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Tip Business</label>
-        <InputSelect class="form-control" @bind-Value="BusinessModel.BusinessTypeId">
-            <option value="0" disabled>Alege tipul...</option>
-            @foreach (var type in BusinessTypes)
-            {
-                <option value="@type.Id">@type.Name</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Salvează</button>
-</EditForm>
+</div>
 
 @code {
     [Inject] public required BusinessService BusinessService { get; set; }

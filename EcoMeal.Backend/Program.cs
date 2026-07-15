@@ -17,6 +17,8 @@ builder.Services.AddDbContext<EcoMealDbContext>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
    );
 
+builder.Services.AddHostedService<ExpiredPackageCleanupService>();
+
 builder.Services.AddIdentityApiEndpoints<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;

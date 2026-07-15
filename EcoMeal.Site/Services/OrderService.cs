@@ -37,6 +37,18 @@ public class OrderService
         return orders ?? new List<OrderGetModel>();
     }
 
+    public async Task<List<OrderGetModel>> GetAllOrdersForAdminAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "api/order/admin");
+        await AddAuthHeaderAsync(request);
+
+        var response = await _http.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        var orders = await response.Content.ReadFromJsonAsync<List<OrderGetModel>>();
+        return orders ?? new List<OrderGetModel>();
+    }
+
 
     private async Task AddAuthHeaderAsync(HttpRequestMessage request)
     {

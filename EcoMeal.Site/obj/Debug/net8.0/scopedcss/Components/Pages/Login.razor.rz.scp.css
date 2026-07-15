@@ -17,11 +17,18 @@
     border: 1px solid #e0e0e0;
 }
 
+
 .login-card h3[b-dpfdf9tioo] {
     color: #064e3b;
     margin-bottom: 1.5rem;
     text-align: center;
     font-weight: 600;
+}
+
+.theme-dark .login-card[b-dpfdf9tioo] {
+    background: #0b1220;
+    border-color: #213543;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .form-control[b-dpfdf9tioo] {

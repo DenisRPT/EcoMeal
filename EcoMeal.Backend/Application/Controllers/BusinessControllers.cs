@@ -105,7 +105,7 @@ public class BusinessController : ControllerBase
                 BusinessTypeName = b.BusinessType.Name,
                 BusinessTypeId = b.BusinessTypeId,
                 Packages = b.Packages
-                .Where(p=>p.Orders.Count==0)
+                .Where(p => !p.IsReserved && p.PickupEnd > DateTime.UtcNow)
                 .Select(p => new PackageGetDTO
                 {
                     Id = p.Id,
@@ -167,6 +167,8 @@ public class BusinessController : ControllerBase
             PickupEnd = package.PickupEnd,
             PackageTypeId = package.PackageTypeId,
             BusinessId = id,
+            Business = null!,
+            PackageType = null!,
         });
         await _context.SaveChangesAsync();
         return Created();

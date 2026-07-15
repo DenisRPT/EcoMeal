@@ -1,66 +1,68 @@
 @inherits LayoutComponentBase
 @using EcoMeal.Site.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.JSInterop
 @inject AuthService AuthService
 @inject NavigationManager Navigation
 @inject SearchState SearchState
+@inject IJSRuntime JSRuntime
 
 <div class="page @ThemeClass">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark border-bottom shadow-sm sticky-top py-3 @ThemeClass">
+    <header class = "sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom shadow-sm py-3 @ThemeClass">
             <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between gap-3 w-100">
-                    <div class="d-flex align-items-center gap-3 flex-fill">
-                        <a class="navbar-brand fw-bold mb-0 d-flex align-items-center" href="/">
-                            <span class="brand-emoji">🍃</span>
-                            <span class="brand-eco">Eco</span><span class="brand-meal">Meal</span>
-                        </a>
-                        
+                <div class="d-flex align-items-center justify-content-between gap-3 w-100 position-relative">
+                    
+                    <a class="navbar-brand fw-bold mb-0 align-items-center @(isMobileSearchActive ? "d-none d-md-flex" : "d-flex")" href="/">
+                        <span class="brand-emoji me-1">🍃</span>
+                        <span class="brand-eco">Eco</span><span class="brand-meal">Meal</span>
+                    </a>
 
-                        <div class="flex-fill d-none d-md-flex">
-                            <div class="input-group input-group-sm w-100 search-input-group">
-                                <span class="input-group-text border-0">🔍</span>
-                                <input class="form-control form-control-sm search-control" type="search" placeholder="Caută business..." @bind="SearchState.Query" @bind:event="oninput" aria-label="Căutare business" />
-                            </div>
+                    <div class="search-wrapper flex-fill @(isMobileSearchActive ? "d-flex" : "d-none d-md-flex") justify-content-center mx-md-4">
+                        <div class="input-group input-group-sm w-100 search-input-group">
+                            @if (isMobileSearchActive)
+                            {
+                                <button class="btn border-0 text-white d-md-none pe-2 ps-3" @onclick="CloseMobileSearch" type="button">
+                                    ✖
+                                </button>
+                            }
+                            else
+                            {
+                                <span class="input-group-text border-0 ps-3">🔍</span>
+                            }
+                            <input class="form-control form-control-sm search-control" 
+                                   type="search" 
+                                   placeholder="Caută business..." 
+                                   @bind="SearchState.Query" 
+                                   @bind:event="oninput" 
+                                   aria-label="Căutare business" />
                         </div>
-
-<button class="btn btn-sm d-md-none" data-bs-toggle="modal" data-bs-target="#searchModal">
-    🔍
-</button>
-
-<div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-text border-0">🔍</span>
-                    <input class="form-control" 
-                           type="search" 
-                           placeholder="Caută business..." 
-                           @bind="SearchState.Query" 
-                           @bind:event="oninput" 
-                           autofocus />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                        
                     </div>
 
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-sm btn-outline-light theme-toggle-btn" @onclick="ToggleTheme" title="Comută tema">
-                            <span class="me-1">@((isDarkTheme) ? "☀️" : "🌙")</span>
+                    <div class="d-flex align-items-center gap-2 @(isMobileSearchActive ? "d-none d-md-flex" : "")">
+                        
+                        <button class="btn btn-sm btn-outline-light d-md-none icon-btn" @onclick="OpenMobileSearch" title="Caută">
+                            🔍
                         </button>
+
+                        <button class="btn btn-sm btn-outline-light theme-toggle-btn icon-btn" @onclick="ToggleTheme" title="Comută tema">
+                            <span>@((isDarkTheme) ? "☀️" : "🌙")</span>
+                        </button>
+
                         @if (AuthService.IsAuthenticated)
                         {
-                            <a class="btn btn-outline-secondary btn-sm me-2" href ="/orders">Comenzi</a>
-                            <button class="btn btn-sm btn-outline-light" @onclick="HandleLogout">Logout</button>
+                            <a class="btn btn-outline-light btn-sm fw-medium d-none d-sm-inline-block" href="/orders">Comenzi</a>
+                            <AuthorizeView Roles="Admin">
+                                <a class="btn btn-outline-light btn-sm fw-medium d-none d-sm-inline-block" href="/admin/orders">Admin</a>
+                            </AuthorizeView>
+                            <button class="btn btn-sm btn-light fw-medium px-3" @onclick="HandleLogout">Logout</button>
                         }
                         else
                         {
-                            <a class="btn btn-sm btn-light" href="/login">Login</a>
+                            <a class="btn btn-sm btn-light fw-medium px-4" href="/login">Login</a>
                         }
                     </div>
+
                 </div>
             </div>
         </nav>
@@ -73,14 +75,20 @@
     </main>
 </div>
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
 
 @code {
-    private bool showMobileSearch = false;
+    private bool isMobileSearchActive = false;
+
+    private void OpenMobileSearch()
+    {
+        isMobileSearchActive = true;
+    }
+
+    private void CloseMobileSearch()
+    {
+        isMobileSearchActive = false;
+        SearchState.Query = string.Empty;
+    }
 
     private bool isDarkTheme = false;
 
@@ -90,6 +98,13 @@
     {
         if (firstRender)
         {
+            var storedTheme = await JSRuntime.InvokeAsync<string?>("ecoMealTheme.get");
+
+            if (storedTheme == "dark")
+            {
+                isDarkTheme = true;
+            }
+
             await AuthService.LoadTokenAsync();
             StateHasChanged();
         }
@@ -100,17 +115,13 @@
     private void ToggleTheme()
     {
         isDarkTheme = !isDarkTheme;
+        _ = JSRuntime.InvokeVoidAsync("ecoMealTheme.set", isDarkTheme ? "dark" : "light");
     }
 
     private async Task HandleLogout()
     {
         await AuthService.LogoutAsync();
         Navigation.NavigateTo("/", forceLoad: true);
-    }
-
-    private void ToggleMobileSearch()
-    {
-        showMobileSearch = !showMobileSearch;
     }
 
 }

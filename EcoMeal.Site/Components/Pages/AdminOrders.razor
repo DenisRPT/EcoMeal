@@ -1,0 +1,78 @@
+@page "/admin/orders"
+@using EcoMeal.Site.Models
+@using EcoMeal.Site.Services
+@using Microsoft.AspNetCore.Components.Authorization
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="admin-orders-container container mt-4">
+            <h2 class="page-title mb-4">Toate comenzile</h2>
+            
+            @if (Orders is null)
+            {
+                <p class="text-center mt-5 text-muted">Loading...</p>
+            }
+            else if (!Orders.Any())
+            {
+                <div class="empty-state mt-4">
+                    <p>Nu există comenzi.</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive admin-table-wrapper">
+                    <table class="table admin-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Pachet</th>
+                                <th>Business</th>
+                                <th>Utilizator</th>
+                                <th>Contact</th>
+                                <th>Dată</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var o in Orders)
+                            {
+                                <tr>
+                                    <td class="fw-medium text-muted">#@o.Id</td>
+                                    <td class="fw-bold">@o.PackageName</td>
+                                    <td>@o.BusinessName</td>
+                                    <td>@o.UserName</td>
+                                    <td>@o.UserContact</td>
+                                    <td>@o.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>
+                                        <span class="badge rounded-pill order-badge bg-secondary opacity-75">
+                                            @o.Status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container mt-5">
+            <div class="empty-state border-danger text-danger">
+                <p>Acces interzis. Această secțiune este rezervată administratorilor.</p>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Inject]
+    public required OrderService orderService { get; set; }
+
+    private List<OrderGetModel>? Orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Orders = await orderService.GetAllOrdersForAdminAsync();
+    }
+}

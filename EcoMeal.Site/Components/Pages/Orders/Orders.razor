@@ -1,44 +1,60 @@
 @page "/orders"
 
-<PageTitle>COmenzile mele</PageTitle>
+<PageTitle>Comenzile mele</PageTitle>
 
-<div class="container">
-   <h1>Comenzile Mele</h1>
-   @if (MyOrders is null){
-    <p>Loading...</p>
-   }
-   else if(!MyOrders.Any())
-   {
-    <div class ="alert alert-light text-center text-muted">
-         Nu ai nici o comanda inca.
-    </div>
-
-   }
-   else
-   {
-    <div class = "row g-3" >
-        @foreach(var order in MyOrders)
-        {
-            <div class="col-12">
-                <div class ="card">
-                    <div class = "card=body">
-                        <div class = "d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class = "card-title mb-1">@order.PackageName</h5>
-                                <p class ="text-muted small"> @order.BusinessName</p>
-                                <p class ="text-muted small">@order.Date.ToString("dd.MM.yyyy HH:mm")</p>
-                            </div>
-                        </div>
-                        <div class "text-end">  
-                            <span class ="badge-rounded-pill bg-success-subtle text-succes-emphasis">@order.Status</span>
-                            <div class= "fw-semibold">@order.Status</div>
-                        </div>
+<div class="orders-page-container container mt-4">
+    <h2 class="page-title mb-4">Comenzile Mele</h2>
+    
+    @if (MyOrders is null)
+    {
+        <p class="text-center mt-5 text-muted">Loading...</p>
+    }
+    else if(!MyOrders.Any())
+    {
+        <div class="empty-state mt-4">
+            <p>Nu ai nicio comandă încă.</p>
+        </div>
+    }
+    else
+    {
+        <div class="orders-list">
+            @foreach(var order in MyOrders)
+            {
+                <div class="order-card">
+                    <div class="order-info">
+                        <h5 class="order-title">@order.PackageName</h5>
+                        <p class="order-business">
+                            <span class="me-1">🏢</span> @order.BusinessName
+                        </p>
+                        <p class="order-date">
+                            <span class="me-1">🕒</span> @order.Date.ToString("dd.MM.yyyy HH:mm")
+                        </p>
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-price">@order.Price.ToString("0.00") lei</div>
+                        <span class="badge rounded-pill order-badge @GetBadgeClass(order.Status)">
+                            @order.Status
+                        </span>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-   }
-
-
+            }
+        </div>
+    }
 </div>
+
+@code {
+    private string GetBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Rezervat" => "bg-info text-dark",
+            "Plasata" => "bg-primary text-white",
+            "Preluata" => "bg-warning text-dark",
+            "Livrat" => "bg-success text-white",
+            "Anulata" => "bg-danger text-white",
+            "Expirata" => "bg-secondary text-white",
+            _ => "bg-light text-dark",
+        };
+    }
+}
+

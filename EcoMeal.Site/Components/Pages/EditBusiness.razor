@@ -2,55 +2,59 @@
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
 
-<h2>Editare Business</h2>
-
 @if (BusinessModel is null)
 {
-    <p>Loading...</p>
+    <p class="text-center mt-5">Loading...</p>
     return;
 }
 
-<EditForm Model="BusinessModel" OnValidSubmit="HandleUpdate">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div class="form-page-layout">
+    <div class="form-container">
+        <h2 class="form-title mb-4">Editare Business</h2>
 
-    <div class="mb-3">
-        <label class="form-label">Nume</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Name" />
-        <ValidationMessage For="() => BusinessModel.Name" />
+        <EditForm Model="BusinessModel" OnValidSubmit="HandleUpdate">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Nume</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Name" />
+                <ValidationMessage For="() => BusinessModel.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Adresă</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Address" />
+                <ValidationMessage For="() => BusinessModel.Address" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Descriere</label>
+                <InputTextArea class="form-input" @bind-Value="BusinessModel.Description" rows="4" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Contact</label>
+                <InputText class="form-input" @bind-Value="BusinessModel.Contact" />
+                <ValidationMessage For="() => BusinessModel.Contact" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-muted">Tip Business</label>
+                <InputSelect class="form-input" @bind-Value="BusinessModel.BusinessTypeId">
+                    <option value="0" disabled>Alege tipul...</option>
+                    @foreach (var type in BusinessTypes)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
+            </div>
+
+            <button type="submit" class="btn-action mt-3">Actualizează</button>
+        </EditForm>
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Adresă</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Address" />
-        <ValidationMessage For="() => BusinessModel.Address" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Descriere</label>
-        <InputTextArea class="form-control" @bind-Value="BusinessModel.Description" rows="4" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Contact</label>
-        <InputText class="form-control" @bind-Value="BusinessModel.Contact" />
-        <ValidationMessage For="() => BusinessModel.Contact" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Tip Business</label>
-        <InputSelect class="form-control" @bind-Value="BusinessModel.BusinessTypeId">
-            <option value="0" disabled>Alege tipul...</option>
-            @foreach (var type in BusinessTypes)
-            {
-                <option value="@type.Id">@type.Name</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Actualizează</button>
-</EditForm>
+</div>
 
 @code {
     [Parameter] public int Id { get; set; }

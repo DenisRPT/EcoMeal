@@ -24,5 +24,9 @@ public class EcoMealDbContext : IdentityDbContext<User,IdentityRole<int>,int>
         .HasOne(p => p.BusinessType)
         .WithMany(p => p.Businesses)
         .HasForeignKey(p => p.BusinessTypeId);
+        // store OrderStatus as string
+        modelBuilder.Entity<Order>()
+            .Property(o => o.Status)
+            .HasConversion<string>();
     }
 }
