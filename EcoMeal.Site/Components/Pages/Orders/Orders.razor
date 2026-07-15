@@ -1,46 +1,62 @@
 @page "/orders"
+@using Microsoft.AspNetCore.Components.Authorization
 
 <PageTitle>Comenzile mele</PageTitle>
 
-<div class="orders-page-container container mt-4">
-    <h2 class="page-title mb-4">Comenzile Mele</h2>
-    
-    @if (MyOrders is null)
-    {
-        <p class="text-center mt-5 text-muted">Loading...</p>
-    }
-    else if(!MyOrders.Any())
-    {
-        <div class="empty-state mt-4">
-            <p>Nu ai nicio comandă încă.</p>
-        </div>
-    }
-    else
-    {
-        <div class="orders-list">
-            @foreach(var order in MyOrders)
+<AuthorizeView>
+    <Authorized>
+        <div class="orders-page-container container mt-4">
+            <div class="section-header mb-4">
+                <h2 class="page-title mb-1">Comenzile mele</h2>
+                <p class="page-subtitle mb-0 text-muted">Istoricul comenzilor tale recente.</p>
+            </div>
+
+            @if (MyOrders is null)
             {
-                <div class="order-card">
-                    <div class="order-info">
-                        <h5 class="order-title">@order.PackageName</h5>
-                        <p class="order-business">
-                            <span class="me-1">🏢</span> @order.BusinessName
-                        </p>
-                        <p class="order-date">
-                            <span class="me-1">🕒</span> @order.Date.ToString("dd.MM.yyyy HH:mm")
-                        </p>
-                    </div>
-                    <div class="order-meta">
-                        <div class="order-price">@order.Price.ToString("0.00") lei</div>
-                        <span class="badge rounded-pill order-badge @GetBadgeClass(order.Status)">
-                            @order.Status
-                        </span>
-                    </div>
+                <p class="text-center mt-5 text-muted">Loading...</p>
+            }
+            else if(!MyOrders.Any())
+            {
+                <div class="empty-state mt-4">
+                    <p>Nu ai nicio comandă încă.</p>
+                </div>
+            }
+            else
+            {
+                <div class="orders-list">
+                    @foreach(var order in MyOrders)
+                    {
+                        <div class="order-card">
+                            <div class="order-info">
+                                <h5 class="order-title">@order.PackageName</h5>
+                                <p class="order-business">
+                                    <span class="me-1">🏢</span> @order.BusinessName
+                                </p>
+                                <p class="order-date">
+                                    <span class="me-1">🕒</span> @order.Date.ToString("dd.MM.yyyy HH:mm")
+                                </p>
+                            </div>
+                            <div class="order-meta">
+                                <div class="order-price">@order.Price.ToString("0.00") lei</div>
+                                <span class="badge rounded-pill order-badge @GetBadgeClass(order.Status)">
+                                    @order.Status
+                                </span>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
-    }
-</div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container mt-5">
+            <div class="empty-state">
+                <p>Trebuie să te autentifici pentru a vedea comenzile.</p>
+                <a class="btn btn-primary" href="/login">Login</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private string GetBadgeClass(string status)

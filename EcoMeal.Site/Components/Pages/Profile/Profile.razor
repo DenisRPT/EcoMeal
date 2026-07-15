@@ -1,0 +1,225 @@
+@page "/profile"
+@using EcoMeal.Site.Models.Auth
+@using EcoMeal.Site.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+
+<PageTitle>Contul meu</PageTitle>
+
+<AuthorizeView>
+    <Authorized Context="authState">
+        <div class="profile-page container mt-4 mb-5">
+            <div class="profile-hero mb-4">
+                <div>
+                    <p class="eyebrow mb-2">Cont personal</p>
+                    <h2 class="page-title mb-2">Contul meu</h2>
+                    <p class="page-subtitle mb-0">Aici îți poți actualiza datele și poți vedea comenzile anterioare.</p>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-light profile-action-btn" @onclick="HandleLogout" type="button">Logout</button>
+                    @if (IsAdmin)
+                    {
+                        <a class="btn btn-outline-light profile-action-btn" href="/admin/orders">Admin</a>
+                    }
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <section class="profile-card">
+                    <div class="section-header mb-4">
+                        <h3 class="section-title mb-1">Date personale</h3>
+                        <p class="section-subtitle mb-0">Modifică numele, emailul și contactul.</p>
+                    </div>
+
+                    @if (ProfileMe is null)
+                    {
+                        <p class="text-muted mb-0">Loading...</p>
+                    }
+                    else
+                    {
+                        <EditForm Model="ProfileMe" OnValidSubmit="SaveProfileAsync">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary class="validation-summary" />
+
+                            @if (!string.IsNullOrWhiteSpace(SaveMessage))
+                            {
+                                <div class="alert @SaveMessageClass mb-3">@SaveMessage</div>
+                            }
+
+                            <div class="profile-form-grid">
+                                <div>
+                                    <label class="form-label">Email</label>
+                                    <InputText class="form-control form-input" @bind-Value="ProfileMe.Email" />
+                                    <ValidationMessage For="() => ProfileMe.Email" />
+                                </div>
+
+                                <div>
+                                    <label class="form-label">Nume</label>
+                                    <InputText class="form-control form-input" @bind-Value="ProfileMe.Name" />
+                                    <ValidationMessage For="() => ProfileMe.Name" />
+                                </div>
+
+                                <div class="profile-field-full">
+                                    <label class="form-label">Contact</label>
+                                    <InputText class="form-control form-input" @bind-Value="ProfileMe.Contact" />
+                                    <ValidationMessage For="() => ProfileMe.Contact" />
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary profile-save-btn" type="submit" disabled="@IsSaving">
+                                @(IsSaving ? "Se salvează..." : "Salvează modificările")
+                            </button>
+                        </EditForm>
+                    }
+                </section>
+
+                <section class="profile-card profile-history-card">
+                    <div class="section-header mb-4">
+                        <h3 class="section-title mb-1">Comenzile mele</h3>
+                        <p class="section-subtitle mb-0">Ultimele comenzi plasate.</p>
+                    </div>
+
+                    @if (MyOrders is null)
+                    {
+                        <p class="text-muted mb-0">Loading...</p>
+                    }
+                    else if (!MyOrders.Any())
+                    {
+                        <div class="empty-state empty-state-soft">
+                            <p>Nu ai nicio comandă încă.</p>
+                            <a class="btn btn-primary" href="/">Explorează business-uri</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="orders-list profile-orders-list">
+                            @foreach (var order in MyOrders)
+                            {
+                                <div class="order-card profile-order-card">
+                                    <div class="order-info">
+                                        <h5 class="order-title">@order.PackageName</h5>
+                                        <p class="order-business">
+                                            <span class="me-1">🏢</span> @order.BusinessName
+                                        </p>
+                                        <p class="order-date">
+                                            <span class="me-1">🕒</span> @order.Date.ToString("dd.MM.yyyy HH:mm")
+                                        </p>
+                                    </div>
+                                    <div class="order-meta">
+                                        <div class="order-price">@order.Price.ToString("0.00") lei</div>
+                                        <span class="badge rounded-pill order-badge @GetBadgeClass(order.Status)">@order.Status</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container mt-5">
+            <div class="empty-state">
+                <p>Trebuie să te autentifici pentru a vedea contul.</p>
+                <a class="btn btn-primary" href="/login">Login</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Inject]
+    public required AuthService AuthService { get; set; }
+
+    [Inject]
+    public required OrderService OrderService { get; set; }
+
+    private UpdateMeRequest? ProfileMe;
+    private List<EcoMeal.Site.Models.OrderGetModel>? MyOrders;
+    private bool IsSaving;
+    private bool IsAdmin;
+    private string? SaveMessage;
+    private string SaveMessageClass => SaveMessage?.StartsWith("Salvat") == true ? "alert-success" : "alert-danger";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        await AuthService.LoadTokenAsync();
+        if (!AuthService.IsAuthenticated)
+        {
+            return;
+        }
+
+        var user = await AuthService.GetCurrentUserAsync();
+        if (user is not null)
+        {
+            ProfileMe = new UpdateMeRequest
+            {
+                Email = user.Email ?? string.Empty,
+                Name = user.Name ?? string.Empty,
+                Contact = user.Contact ?? string.Empty
+            };
+            IsAdmin = user.Roles.Contains("Admin");
+        }
+
+        MyOrders = await OrderService.GetMyOrderAsync();
+        StateHasChanged();
+    }
+
+    private async Task SaveProfileAsync()
+    {
+        if (ProfileMe is null)
+        {
+            return;
+        }
+
+        IsSaving = true;
+        SaveMessage = null;
+
+        try
+        {
+            var updated = await AuthService.UpdateCurrentUserAsync(ProfileMe);
+            if (updated is null)
+            {
+                SaveMessage = "Nu am putut salva modificările.";
+                return;
+            }
+
+            ProfileMe = new UpdateMeRequest
+            {
+                Email = updated.Email ?? string.Empty,
+                Name = updated.Name ?? string.Empty,
+                Contact = updated.Contact ?? string.Empty
+            };
+
+            IsAdmin = updated.Roles.Contains("Admin");
+            SaveMessage = "Salvat cu succes.";
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync();
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+
+    private static string GetBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Rezervat" => "bg-info text-dark",
+            "Finalizat" => "bg-success text-white",
+            "Anulat" => "bg-danger text-white",
+            _ => "bg-light text-dark",
+        };
+    }
+}

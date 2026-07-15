@@ -1,0 +1,34 @@
+.category-scroll {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+}
+
+.category-scroll .btn {
+	white-space: nowrap;
+	flex: 0 0 auto;
+}
+
+.category-pill {
+	white-space: nowrap;
+}
+
+.empty-state-soft {
+	background: #f8fafc;
+	border: 1px dashed #d1d5db;
+	border-radius: 1rem;
+	padding: 1rem 1.1rem;
+}
+
+.theme-dark .empty-state-soft {
+	background: #0f172a;
+	border-color: #1e293b;
+	color: #cbd5e1;
+}
+
+@media (max-width: 767.98px) {
+	.category-scroll {
+		flex-wrap: nowrap !important;
+		padding-bottom: 0.25rem;
+	}
+}

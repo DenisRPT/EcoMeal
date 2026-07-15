@@ -13,14 +13,16 @@ public partial class BusinessList : IDisposable
     public required SearchState SearchState { get; set; }
 
     private List<BusinessModel>? Businesses { get; set; }
+    private List<BusinessTypeModel> BusinessTypes { get; set; } = new();
     private Dictionary<string, List<BusinessModel>>? GroupedBusinesses { get; set; }
-    private List<string> BusinessTypeNames { get; set; } = new();
+    private Dictionary<string, List<BusinessModel>> GroupedBusinessesView => GroupedBusinesses ?? new Dictionary<string, List<BusinessModel>>();
     private string SelectedType { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         SearchState.OnChanged += OnSearchChanged;
         Businesses = await BusinessService.GetAllAsync();
+        BusinessTypes = await BusinessService.GetBusinessTypesAsync();
         BuildGroups();
     }
 
@@ -35,7 +37,6 @@ public partial class BusinessList : IDisposable
         if (Businesses is null)
         {
             GroupedBusinesses = null;
-            BusinessTypeNames.Clear();
             return;
         }
 
@@ -47,13 +48,17 @@ public partial class BusinessList : IDisposable
                 || b.BusinessTypeName.Contains(query, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-        GroupedBusinesses = filtered
+        var groupedBusinesses = filtered
             .GroupBy(b => b.BusinessTypeName)
-            .OrderBy(g => g.Key)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        BusinessTypeNames = GroupedBusinesses.Keys.ToList();
-        if (!BusinessTypeNames.Contains(SelectedType))
+        GroupedBusinesses = BusinessTypes
+            .OrderBy(bt => bt.Name)
+            .ToDictionary(
+                bt => bt.Name,
+                bt => groupedBusinesses.TryGetValue(bt.Name, out var businesses) ? businesses : new List<BusinessModel>());
+
+        if (!GroupedBusinesses.ContainsKey(SelectedType))
         {
             SelectedType = string.Empty;
         }

@@ -24,9 +24,20 @@ else
             <div class="info-card">
                 <span class="info-label">Adresă</span>
                 <strong>@Business.Address</strong>
+                <div class="map-card">
+                    <iframe 
+                        width="100%" 
+                        height="100" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        marginheight="0" 
+                        marginwidth="0" 
+                        src="https://maps.google.com/maps?q=@(Uri.EscapeDataString(Business.Address))&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                    </iframe>
+                </div>
             </div>
             <AuthorizeView Roles="Admin">
-            <div class="info-card align-self-start">
+            <div class="info-card">
                 <button class="btn btn-outline-secondary btn-md" @onclick="NavigateToEditBusiness">Edit</button>
             </div>
             </AuthorizeView>

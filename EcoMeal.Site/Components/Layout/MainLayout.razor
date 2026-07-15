@@ -9,64 +9,53 @@
 
 <div class="page @ThemeClass">
     <header class = "sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark border-bottom shadow-sm py-3 @ThemeClass">
+        <nav class="navbar navbar-dark border-bottom shadow-sm py-3 @ThemeClass">
             <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between gap-3 w-100 position-relative">
-                    
-                    <a class="navbar-brand fw-bold mb-0 align-items-center @(isMobileSearchActive ? "d-none d-md-flex" : "d-flex")" href="/">
+                <div class="nav-mobile-top d-flex align-items-center gap-2 flex-nowrap">
+                    <a class="navbar-brand fw-bold mb-0 d-flex align-items-center flex-shrink-0" href="/">
                         <span class="brand-emoji me-1">🍃</span>
                         <span class="brand-eco">Eco</span><span class="brand-meal">Meal</span>
                     </a>
 
-                    <div class="search-wrapper flex-fill @(isMobileSearchActive ? "d-flex" : "d-none d-md-flex") justify-content-center mx-md-4">
+                    <div class="search-wrapper flex-grow-1">
                         <div class="input-group input-group-sm w-100 search-input-group">
-                            @if (isMobileSearchActive)
-                            {
-                                <button class="btn border-0 text-white d-md-none pe-2 ps-3" @onclick="CloseMobileSearch" type="button">
-                                    ✖
-                                </button>
-                            }
-                            else
-                            {
-                                <span class="input-group-text border-0 ps-3">🔍</span>
-                            }
-                            <input class="form-control form-control-sm search-control" 
-                                   type="search" 
-                                   placeholder="Caută business..." 
-                                   @bind="SearchState.Query" 
-                                   @bind:event="oninput" 
+                            <span class="input-group-text border-0 ps-3">🔍</span>
+                            <input class="form-control form-control-sm search-control"
+                                   type="search"
+                                   placeholder="Caută business..."
+                                   @bind="SearchState.Query"
+                                   @bind:event="oninput"
                                    aria-label="Căutare business" />
                         </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-2 @(isMobileSearchActive ? "d-none d-md-flex" : "")">
-                        
-                        <button class="btn btn-sm btn-outline-light d-md-none icon-btn" @onclick="OpenMobileSearch" title="Caută">
-                            🔍
-                        </button>
-
-                        <button class="btn btn-sm btn-outline-light theme-toggle-btn icon-btn" @onclick="ToggleTheme" title="Comută tema">
-                            <span>@((isDarkTheme) ? "☀️" : "🌙")</span>
-                        </button>
-
-                        @if (AuthService.IsAuthenticated)
-                        {
-                            <a class="btn btn-outline-light btn-sm fw-medium d-none d-sm-inline-block" href="/orders">Comenzi</a>
-                            <AuthorizeView Roles="Admin">
-                                <a class="btn btn-outline-light btn-sm fw-medium d-none d-sm-inline-block" href="/admin/orders">Admin</a>
-                            </AuthorizeView>
-                            <button class="btn btn-sm btn-light fw-medium px-3" @onclick="HandleLogout">Logout</button>
-                        }
-                        else
-                        {
-                            <a class="btn btn-sm btn-light fw-medium px-4" href="/login">Login</a>
-                        }
-                    </div>
-
+                        <div class="nav-desktop-actions d-none d-lg-flex align-items-center gap-2 flex-shrink-0">
+                            <button class="btn btn-sm btn-outline-light nav-icon-btn" @onclick="ToggleTheme" title="Comută tema" aria-label="Comută tema">
+                                <span>@(isDarkTheme ? "☀" : "☾")</span>
+                            </button>
+                            <a class="btn btn-sm btn-outline-light nav-icon-btn" href="/orders" title="Comenzi" aria-label="Comenzi">
+                                <span>🛒</span>
+                            </a>
+                            <a class="btn btn-sm btn-outline-light nav-icon-btn" href="@(AuthService.IsAuthenticated ? "/profile" : "/login")" title="Cont" aria-label="Cont">
+                                <span>👤</span>
+                            </a>
+                        </div>
                 </div>
             </div>
         </nav>
     </header>
+
+    <div class="mobile-bottom-nav d-lg-none">
+        <button class="btn btn-sm btn-outline-light nav-icon-btn" @onclick="ToggleTheme" title="Comută tema" aria-label="Comută tema">
+            <span>@(isDarkTheme ? "☀" : "☾")</span>
+        </button>
+        <a class="btn btn-sm btn-outline-light nav-icon-btn" href="/orders" title="Comenzi" aria-label="Comenzi">
+            <span>🛒</span>
+        </a>
+        <a class="btn btn-sm btn-outline-light nav-icon-btn" href="@(AuthService.IsAuthenticated ? "/profile" : "/login")" title="Cont" aria-label="Cont">
+            <span>👤</span>
+        </a>
+    </div>
 
     <main class="container py-4">
         <article class="content">
@@ -77,22 +66,7 @@
 
 
 @code {
-    private bool isMobileSearchActive = false;
-
-    private void OpenMobileSearch()
-    {
-        isMobileSearchActive = true;
-    }
-
-    private void CloseMobileSearch()
-    {
-        isMobileSearchActive = false;
-        SearchState.Query = string.Empty;
-    }
-
     private bool isDarkTheme = false;
-
-    public Models.Auth.UserMeResponse? User { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -108,6 +108,51 @@ public class AuthService
         }
     }
 
+    public async Task<UserMeResponse?> GetCurrentUserAsync()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "api/auth/me");
+        await AddAuthHeaderAsync(request);
+
+        var response = await _http.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await response.Content.ReadFromJsonAsync<UserMeResponse>();
+    }
+
+    public async Task<UserMeResponse?> UpdateCurrentUserAsync(UpdateMeRequest requestModel)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Put, "api/auth/me")
+        {
+            Content = JsonContent.Create(requestModel)
+        };
+
+        await AddAuthHeaderAsync(request);
+
+        var response = await _http.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await response.Content.ReadFromJsonAsync<UserMeResponse>();
+    }
+
+    private async Task AddAuthHeaderAsync(HttpRequestMessage request)
+    {
+        if (string.IsNullOrEmpty(Token))
+        {
+            await LoadTokenAsync();
+        }
+
+        if (!string.IsNullOrEmpty(Token))
+        {
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
+        }
+    }
+
     private async Task<List<string>> FetchRolesAsync(string token)
     {
         try

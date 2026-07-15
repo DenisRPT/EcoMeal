@@ -57,4 +57,40 @@ public class AuthController : ControllerBase
             Roles = roles
         });
     }
+
+    [HttpPut("me")]
+    [Authorize]
+    public async Task<IActionResult> UpdateMe([FromBody] UpdateMeRequest request)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+            return NotFound();
+
+        var normalizedEmail = request.Email?.Trim();
+        if (string.IsNullOrWhiteSpace(normalizedEmail))
+            return BadRequest(new { Errors = new[] { "Email-ul este obligatoriu." } });
+
+        var existingUser = await _userManager.FindByEmailAsync(normalizedEmail);
+        if (existingUser != null && existingUser.Id != user.Id)
+            return BadRequest(new { Errors = new[] { "Există deja un cont cu acest email." } });
+
+        user.Email = normalizedEmail;
+        user.UserName = normalizedEmail;
+        user.Name = request.Name?.Trim();
+        user.Contact = request.Contact?.Trim();
+
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+            return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        return Ok(new UserMeResponse
+        {
+            Email = user.Email,
+            Name = user.Name,
+            Contact = user.Contact,
+            Roles = roles
+        });
+    }
 }

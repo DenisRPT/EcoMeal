@@ -1,0 +1,8 @@
+namespace EcoMeal.API.Application.Models.Auth;
+
+public class UpdateMeRequest
+{
+    public string Email { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Contact { get; set; } = string.Empty;
+}
