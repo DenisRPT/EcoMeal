@@ -9,5 +9,6 @@ public class BusinessDetailsModel
     public string Contact { get; set; } = "";
     public string BusinessTypeName { get; set; } = "";
     public int BusinessTypeId { get; set; }
+    public string? ImagePath { get; set; }
     public List<PackageGetModel> Packages { get; set; } = new();
 }

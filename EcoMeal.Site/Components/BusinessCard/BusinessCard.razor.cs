@@ -15,6 +15,8 @@ public partial class BusinessCard
     [Parameter]
     public EventCallback<int> OnDeleted { get; set; }
 
+    private string? BusinessImageUrl => BusinessService.BuildBusinessImageUrl(Business.ImagePath);
+
     public async Task Delete()
     {
         var success = await BusinessService.DeleteAsync(Business.Id);

@@ -54,6 +54,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json","EcoMeal API");
     });
 }
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

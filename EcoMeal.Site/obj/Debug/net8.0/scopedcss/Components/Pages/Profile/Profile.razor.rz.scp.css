@@ -99,7 +99,10 @@
 }
 
 .profile-orders-list[b-agi67ncrhp] {
+    max-height: 250px;
+    overflow-y: auto;
     gap: 0.9rem;
+    padding-right: 0.25rem;
 }
 
 .profile-order-card[b-agi67ncrhp] {

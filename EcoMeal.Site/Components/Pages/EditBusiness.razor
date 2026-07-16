@@ -1,6 +1,7 @@
 @page "/business/{Id:int}/edit"
 @using EcoMeal.Site.Models
 @using EcoMeal.Site.Services
+@using Microsoft.AspNetCore.Components.Forms
 
 @if (BusinessModel is null)
 {
@@ -51,6 +52,15 @@
                 <ValidationMessage For="() => BusinessModel.BusinessTypeId" />
             </div>
 
+            <div class="mb-3">
+                <label class="form-label text-muted">Imagine Business</label>
+                <InputFile OnChange="HandleFileSelection" class="form-control" />
+                @if (!string.IsNullOrWhiteSpace(imagePreview))
+                {
+                    <img src="@imagePreview" class="mt-2" style="max-width: 200px;" />
+                }
+            </div>
+
             <button type="submit" class="btn-action mt-3">Actualizează</button>
         </EditForm>
     </div>
@@ -60,9 +70,12 @@
     [Parameter] public int Id { get; set; }
     [Inject] public required BusinessService BusinessService { get; set; }
     [Inject] public required NavigationManager NavigationManager { get; set; }
+    [Inject] public required IJSRuntime JS { get; set; }
 
     private BusinessUpdateModel? BusinessModel { get; set; }
     private List<BusinessTypeModel> BusinessTypes { get; set; } = new();
+    private IBrowserFile? selectedFile;
+    private string? imagePreview;
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,6 +91,34 @@
                 Contact = business.Contact,
                 BusinessTypeId = business.BusinessTypeId
             };
+
+            imagePreview = BusinessService.BuildBusinessImageUrl(business.ImagePath);
+        }
+    }
+
+    private async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var maxAllowedSize = 1024 * 1024 * 2;
+
+        try
+        {
+            var resizedImage = await selectedFile.RequestImageFileAsync("image/png", 400, 400);
+
+            using var memoryStream = new MemoryStream();
+            await resizedImage.OpenReadStream(maxAllowedSize).CopyToAsync(memoryStream);
+            var buffer = memoryStream.ToArray();
+            imagePreview = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Eroare la generarea preview-ului: {ex.Message}");
+            imagePreview = null;
         }
     }
 
@@ -88,7 +129,33 @@
             return;
         }
 
-        await BusinessService.UpdateBusinessAsync(Id, BusinessModel);
-        NavigationManager.NavigateTo($"/business/{Id}");
+        var content = new MultipartFormDataContent();
+
+        content.Add(new StringContent(BusinessModel.Name), "Name");
+        content.Add(new StringContent(BusinessModel.Address), "Address");
+        content.Add(new StringContent(BusinessModel.Contact), "Contact");
+        content.Add(new StringContent(BusinessModel.Description ?? string.Empty), "Description");
+        content.Add(new StringContent(BusinessModel.BusinessTypeId.ToString()), "BusinessTypeId");
+
+        if (selectedFile is not null)
+        {
+            var fileContent = new StreamContent(selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 2));
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(fileContent, "ImageFile", selectedFile.Name);
+        }
+
+        var result = await BusinessService.UpdateBusinessAsync(Id, content);
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo($"/business/{Id}");
+        }
+        else
+        {
+            var message = string.IsNullOrWhiteSpace(result.ErrorMessage)
+                ? "A apărut o eroare la actualizarea business-ului!"
+                : $"A apărut o eroare la actualizarea business-ului: {result.ErrorMessage}";
+
+            await JS.InvokeVoidAsync("alert", message);
+        }
     }
 }

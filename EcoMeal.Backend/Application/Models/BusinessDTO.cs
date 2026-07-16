@@ -9,4 +9,5 @@ public class BusinessDTO
     public required string Contact { get; set; }
     public required string BusinessTypeName { get; set; }
     public int BusinessTypeId { get; set; }
+    public string? ImagePath { get; set; }
 }

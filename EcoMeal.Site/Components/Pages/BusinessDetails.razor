@@ -9,40 +9,57 @@
 }
 else
 {
+    var businessImageUrl = businessService.BuildBusinessImageUrl(Business.ImagePath);
+    var heroStyle = string.IsNullOrWhiteSpace(businessImageUrl)
+        ? string.Empty
+        : $"--hero-image: url('{businessImageUrl}');";
+
     <div class="business-page">
-        <section class="business-hero">
-        <div class="hero-content">
-            <span class="hero-badge">@Business.BusinessTypeName</span>
-            <h1>@Business.Name</h1>
-            <p>@Business.Description</p>
-        </div>
-        <div class="hero-details">
-            <div class="info-card">
-                <span class="info-label">Contact</span>
-                <strong>@Business.Contact</strong>
-            </div>
-            <div class="info-card">
-                <span class="info-label">Adresă</span>
-                <strong>@Business.Address</strong>
-                <div class="map-card">
-                    <iframe 
-                        width="100%" 
-                        height="100" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        marginheight="0" 
-                        marginwidth="0" 
-                        src="https://maps.google.com/maps?q=@(Uri.EscapeDataString(Business.Address))&t=&z=15&ie=UTF8&iwloc=&output=embed">
-                    </iframe>
+        <section class="business-hero" style="@heroStyle">
+            @if (!string.IsNullOrWhiteSpace(businessImageUrl))
+            {
+                <div class="hero-image-wrap">
+                    <img src="@businessImageUrl" alt="Imagine @Business.Name" class="hero-image" />
                 </div>
+            }
+            <div class="hero-content">
+                <span class="hero-badge">@Business.BusinessTypeName</span>
+                <h1>@Business.Name</h1>
+                <p>@Business.Description</p>
             </div>
-            <AuthorizeView Roles="Admin">
-            <div class="info-card">
-                <button class="btn btn-outline-secondary btn-md" @onclick="NavigateToEditBusiness">Edit</button>
+            <div class="hero-details">
+                <div class="info-card">
+                    <span class="info-label">Contact</span>
+                    <div class="info-row">
+                        <span class="info-icon info-icon-contact" aria-hidden="true"></span>
+                        <strong>@Business.Contact</strong>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Adresă</span>
+                    <div class="info-row">
+                        <span class="info-icon info-icon-location" aria-hidden="true"></span>
+                        <strong>@Business.Address</strong>
+                    </div>
+                    <div class="map-card">
+                        <iframe 
+                            width="100%" 
+                            height="100" 
+                            frameborder="0" 
+                            scrolling="no" 
+                            marginheight="0" 
+                            marginwidth="0" 
+                            src="https://maps.google.com/maps?q=@(Uri.EscapeDataString(Business.Address))&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                        </iframe>
+                    </div>
+                </div>
+                <AuthorizeView Roles="Admin">
+                <div class="info-card info-card-action">
+                    <button class="btn btn-outline-secondary btn-md edit-business-btn" @onclick="NavigateToEditBusiness">Edit</button>
+                </div>
+                </AuthorizeView>
             </div>
-            </AuthorizeView>
-        </div>
-    </section>
+        </section>
 
     <section class="packages-section">
         @if (!string.IsNullOrEmpty(FeedbackMessage))

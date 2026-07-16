@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using EcoMeal.Backend.Entities;
 using EcoMeal.Backend.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 
 using EcoMeal.Backend.Application.Models;
@@ -13,9 +15,11 @@ namespace EcoMeal.Backend.Application;
 public class BusinessController : ControllerBase
 {
     private readonly EcoMealDbContext _context;
-    public BusinessController(EcoMealDbContext context)
+    private readonly IWebHostEnvironment _environment;
+    public BusinessController(EcoMealDbContext context, IWebHostEnvironment environment)
     {
         _context = context;
+        _environment = environment;
     }
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BusinessDTO>>> GetAll()
@@ -29,16 +33,28 @@ public class BusinessController : ControllerBase
                 Address = b.Address,
                 Description = b.Description,
                 Contact = b.Contact,
-                BusinessTypeName = b.BusinessType.Name,
-                BusinessTypeId = b.BusinessTypeId
+                BusinessTypeName = b.BusinessType != null ? b.BusinessType.Name : string.Empty,
+                BusinessTypeId = b.BusinessTypeId,
+                ImagePath = b.ImagePath
             })
             .ToListAsync();
         return Ok(businessesDTOs);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBusiness([FromBody] BusinessAddDTO business)
+    public async Task<IActionResult> CreateBusiness([FromForm] BusinessAddDTO business)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var businessTypeExists = await _context.BusinessTypes.AnyAsync(bt => bt.Id == business.BusinessTypeId);
+        if (!businessTypeExists)
+        {
+            return BadRequest("Tipul de business selectat este invalid.");
+        }
+
         var newBusiness = new Business
         {
             Name = business.Name,
@@ -48,6 +64,32 @@ public class BusinessController : ControllerBase
             BusinessTypeId = business.BusinessTypeId
         };
 
+        if (business.ImageFile != null && business.ImageFile.Length > 0)
+        {
+            var webRootPath = _environment.WebRootPath;
+            if (string.IsNullOrWhiteSpace(webRootPath))
+            {
+                webRootPath = Path.Combine(_environment.ContentRootPath, "wwwroot");
+            }
+
+            var uploadsFolder = Path.Combine(webRootPath, "images", "businesses");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            var originalFileName = Path.GetFileName(business.ImageFile.FileName);
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + originalFileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await business.ImageFile.CopyToAsync(fileStream);
+            }
+
+            newBusiness.ImagePath = "/images/businesses/" + uniqueFileName;
+        }
+
         _context.Business.Add(newBusiness);
         await _context.SaveChangesAsync();
 
@@ -55,7 +97,7 @@ public class BusinessController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateBusiness(int id, [FromBody] BusinessUpdateDTO business)
+    public async Task<IActionResult> UpdateBusiness(int id, [FromForm] BusinessUpdateDTO business)
     {
         var existingBusiness = await _context.Business.FindAsync(id);
         if (existingBusiness is null)
@@ -63,11 +105,23 @@ public class BusinessController : ControllerBase
             return NotFound();
         }
 
+        var businessTypeExists = await _context.BusinessTypes.AnyAsync(bt => bt.Id == business.BusinessTypeId);
+        if (!businessTypeExists)
+        {
+            return BadRequest("Tipul de business selectat este invalid.");
+        }
+
         existingBusiness.Name = business.Name;
         existingBusiness.Address = business.Address;
         existingBusiness.Description = business.Description;
         existingBusiness.Contact = business.Contact;
         existingBusiness.BusinessTypeId = business.BusinessTypeId;
+
+        if (business.ImageFile != null && business.ImageFile.Length > 0)
+        {
+            DeleteBusinessImage(existingBusiness.ImagePath);
+            existingBusiness.ImagePath = await SaveBusinessImageAsync(business.ImageFile);
+        }
 
         await _context.SaveChangesAsync();
         return NoContent();
@@ -102,8 +156,9 @@ public class BusinessController : ControllerBase
                 Address = b.Address,
                 Description = b.Description,
                 Contact = b.Contact,
-                BusinessTypeName = b.BusinessType.Name,
+                BusinessTypeName = b.BusinessType != null ? b.BusinessType.Name : string.Empty,
                 BusinessTypeId = b.BusinessTypeId,
+                ImagePath = b.ImagePath,
                 Packages = b.Packages
                 .Where(p => !p.IsReserved && p.PickupEnd > DateTime.UtcNow)
                 .Select(p => new PackageGetDTO
@@ -210,5 +265,52 @@ public class BusinessController : ControllerBase
         _context.Packages.Remove(existingPackage);
         await _context.SaveChangesAsync();
         return NoContent();
+    }
+
+    private async Task<string> SaveBusinessImageAsync(IFormFile imageFile)
+    {
+        var webRootPath = _environment.WebRootPath;
+        if (string.IsNullOrWhiteSpace(webRootPath))
+        {
+            webRootPath = Path.Combine(_environment.ContentRootPath, "wwwroot");
+        }
+
+        var uploadsFolder = Path.Combine(webRootPath, "images", "businesses");
+        if (!Directory.Exists(uploadsFolder))
+        {
+            Directory.CreateDirectory(uploadsFolder);
+        }
+
+        var originalFileName = Path.GetFileName(imageFile.FileName);
+        var uniqueFileName = Guid.NewGuid().ToString() + "_" + originalFileName;
+        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            await imageFile.CopyToAsync(fileStream);
+        }
+
+        return "/images/businesses/" + uniqueFileName;
+    }
+
+    private void DeleteBusinessImage(string? imagePath)
+    {
+        if (string.IsNullOrWhiteSpace(imagePath))
+        {
+            return;
+        }
+
+        var webRootPath = _environment.WebRootPath;
+        if (string.IsNullOrWhiteSpace(webRootPath))
+        {
+            webRootPath = Path.Combine(_environment.ContentRootPath, "wwwroot");
+        }
+
+        var trimmedPath = imagePath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+        var fullPath = Path.Combine(webRootPath, trimmedPath);
+        if (System.IO.File.Exists(fullPath))
+        {
+            System.IO.File.Delete(fullPath);
+        }
     }
 }

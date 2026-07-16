@@ -160,3 +160,4 @@ C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net1
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\obj\Debug\net10.0\ref\EcoMeal.Backend.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Backend\bin\Debug\net10.0\EcoMeal.Backend.staticwebassets.runtime.json

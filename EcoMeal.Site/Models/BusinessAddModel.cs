@@ -16,6 +16,6 @@ public class BusinessAddModel
     [Required(ErrorMessage = "Contactul este obligatoriu")]
     public string Contact { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Trebuie ales un tip de business")]
+    [Range(1, int.MaxValue, ErrorMessage = "Trebuie ales un tip de business")]
     public int BusinessTypeId { get; set; }
 }

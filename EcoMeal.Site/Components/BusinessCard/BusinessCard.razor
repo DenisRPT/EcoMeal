@@ -1,16 +1,29 @@
 @namespace EcoMeal.Site.Components.BusinessCard
 @using Microsoft.AspNetCore.Components.Authorization
 
-<div class="card h-100" @onclick="NavigateToDetails">
-  <div class="card-body">
-    <h5 class="card-title">@Business.Name</h5>
-    <p class="card-text">@Business.Description</p>
-    <p class="card-text">@Business.Address</p>
-    <p class="card-text">@Business.Contact</p>
-    <div class="d-flex justify-content-end">
-      <AuthorizeView Roles ="Admin">
-        <button type="button" class="btn btn-sm btn-danger" @onclick="Delete" @onclick:stopPropagation="true">Delete</button>
-      </AuthorizeView>
+<div class="card h-100 business-card" @onclick="NavigateToDetails">
+  @if (!string.IsNullOrWhiteSpace(BusinessImageUrl))
+  {
+    <img src="@BusinessImageUrl" alt="Imagine @Business.Name" class="business-bg-image" />
+  }
+  else
+  {
+    <div class="business-bg-fallback" aria-hidden="true"></div>
+  }
+
+  <div class="card-body business-overlay">
+    <h5 class="card-title business-title">@Business.Name</h5>
+
+    <div class="business-details">
+      <p class="card-text business-description">@(string.IsNullOrWhiteSpace(Business.Description) ? "Fara descriere disponibila." : Business.Description)</p>
+      <p class="card-text business-meta">@Business.Address</p>
+      <p class="card-text business-meta">@Business.Contact</p>
+
+      <div class="d-flex justify-content-end">
+        <AuthorizeView Roles="Admin">
+          <button type="button" class="btn btn-sm btn-danger" @onclick="Delete" @onclick:stopPropagation="true">Delete</button>
+        </AuthorizeView>
+      </div>
     </div>
   </div>
 </div>

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace EcoMeal.Backend.Application.Models;
 
 public class BusinessUpdateDTO
@@ -7,4 +9,5 @@ public class BusinessUpdateDTO
     public string? Description { get; set; }
     public required string Contact { get; set; }
     public int BusinessTypeId { get; set; }
+    public IFormFile? ImageFile { get; set; }
 }

@@ -6,7 +6,11 @@
 }
 
 .business-hero[b-jj5ocresa3] {
-    background: linear-gradient(135deg, #2f6f4f, #4f9d73);
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(11, 18, 32, 0.22) 0%, rgba(11, 18, 32, 0.55) 44%, rgba(11, 18, 32, 0.84) 100%),
+        linear-gradient(135deg, #2f6f4f, #4f9d73);
     color: white;
     border-radius: 1.25rem;
     padding: 2rem;
@@ -15,6 +19,41 @@
     align-items: center;
     gap: 1.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.business-hero[b-jj5ocresa3]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(10, 20, 34, 0.18) 0%, rgba(10, 20, 34, 0.28) 35%, rgba(10, 20, 34, 0.8) 100%),
+        var(--hero-image, none) center center / cover no-repeat;
+    filter: blur(28px) saturate(1.15);
+    transform: scale(1.12);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.business-hero > *[b-jj5ocresa3] {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image-wrap[b-jj5ocresa3] {
+    width: 240px;
+    min-width: 240px;
+    height: 200px;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.hero-image[b-jj5ocresa3] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .hero-content h1[b-jj5ocresa3] {
@@ -54,7 +93,50 @@
     padding: 0.85rem 1rem;
     backdrop-filter: blur(6px);
     width: 85%;
-    text-align: center;
+    text-align: left;
+
+}
+
+.info-row[b-jj5ocresa3] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin-top: 0.2rem;
+}
+
+.info-row strong[b-jj5ocresa3] {
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+.info-icon[b-jj5ocresa3] {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.18rem;
+    opacity: 0.95;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.info-icon-contact[b-jj5ocresa3] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M3.654 1.328a.678.678 0 0 1 .716-.004l2.29 1.43c.28.175.392.531.268.84L5.59 5.17a.678.678 0 0 1-.64.43l-.884-.044a11.1 11.1 0 0 0 5.95 5.95l-.044-.884a.678.678 0 0 1 .43-.64l1.576-.658c.309-.129.665-.017.84.268l1.43 2.29a.678.678 0 0 1-.004.716l-1.026 1.529a1.7 1.7 0 0 1-1.67.726c-2.46-.36-4.813-1.599-6.656-3.442C2.95 10.219 1.712 7.866 1.352 5.406a1.7 1.7 0 0 1 .726-1.67L3.654 1.328Z'/%3E%3C/svg%3E");
+}
+
+.info-icon-location[b-jj5ocresa3] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 15s4-4.686 4-8a4 4 0 1 0-8 0c0 3.314 4 8 4 8Zm0-5.5A2.5 2.5 0 1 1 8 4a2.5 2.5 0 0 1 0 5.5Z'/%3E%3C/svg%3E");
+}
+
+.info-card-action[b-jj5ocresa3] {
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 0.95rem;
+    padding-bottom: 0.95rem;
+}
+
+.edit-business-btn[b-jj5ocresa3] {
+    min-width: 7rem;
 }
 
 .info-card .btn-outline-secondary[b-jj5ocresa3] {
@@ -65,6 +147,8 @@
     padding: 0.4rem 1.2rem;
     font-weight: 500;
     transition: all 0.2s ease;
+    width: 100%;
+
 }
 
 .info-card .btn-outline-secondary:hover[b-jj5ocresa3] {
@@ -234,8 +318,17 @@
 }
 
 .theme-dark .business-hero[b-jj5ocresa3] {
-    background: linear-gradient(135deg, #1e293b, #334155);
+    background:
+        linear-gradient(90deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.5) 44%, rgba(2, 6, 23, 0.86) 100%),
+        linear-gradient(135deg, #1e293b, #334155);
     color: #e2e8f0;
+}
+
+.theme-dark .business-hero[b-jj5ocresa3]::before {
+    background:
+        linear-gradient(90deg, rgba(2, 6, 23, 0.16) 0%, rgba(2, 6, 23, 0.28) 35%, rgba(2, 6, 23, 0.82) 100%),
+        var(--hero-image, none) center center / cover no-repeat;
+    opacity: 0.72;
 }
 
 .theme-dark .info-card[b-jj5ocresa3] {
@@ -323,9 +416,33 @@
         align-items: flex-start;
     }
 
+    .hero-image-wrap[b-jj5ocresa3] {
+        width: 100%;
+        min-width: 0;
+        height: 220px;
+    }
+
     .section-header[b-jj5ocresa3] {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.75rem;
+    }
+
+    .hero-details[b-jj5ocresa3] {
+        align-items: stretch;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .info-card[b-jj5ocresa3] {
+        width: 100%;
+    }
+
+    .info-card-action[b-jj5ocresa3] {
+        justify-content: flex-start;
+    }
+
+    .edit-business-btn[b-jj5ocresa3] {
+        width: 100%;
     }
 }

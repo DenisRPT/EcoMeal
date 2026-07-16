@@ -63,6 +63,8 @@ public class OrderController:ControllerBase
             Price = (double)package.Price,
             BusinessId = package.BusinessId,
             BusinessName = package.Business.Name,
+            PickupStart = package.PickupStart,
+            PickupEnd = package.PickupEnd,
             UserName = user?.Name,
             UserContact = user?.Contact
         });
@@ -83,7 +85,9 @@ public class OrderController:ControllerBase
                 Price = (double)o.Package!.Price,
                 BusinessId = o.Package!.BusinessId,
                 BusinessName = o.Package!.Business!.Name,
-                PackageName = o.Package!.Name
+                PackageName = o.Package!.Name,
+                PickupStart = o.Package!.PickupStart,
+                PickupEnd = o.Package!.PickupEnd
             }).ToListAsync();
 
         return Ok(orders);
@@ -107,6 +111,8 @@ public class OrderController:ControllerBase
                 BusinessId = o.Package!.BusinessId,
                 BusinessName = o.Package!.Business!.Name,
                 PackageName = o.Package!.Name,
+                PickupStart = o.Package!.PickupStart,
+                PickupEnd = o.Package!.PickupEnd,
                 UserName = o.User!.Name,
                 UserContact = o.User!.Contact
             }).ToListAsync();

@@ -10,4 +10,5 @@ public class Business
     public int BusinessTypeId { get; set; }
     public BusinessType BusinessType { get; set; } = null!;
     public ICollection<Package> Packages { get; set; } = new List<Package>();
+    public string? ImagePath { get; set; }
 }

@@ -14,6 +14,28 @@ public class BusinessService
         var businesses = await _http.GetFromJsonAsync<List<BusinessModel>>("api/business");
         return businesses ?? new List<BusinessModel>();
     }
+
+    public string? BuildBusinessImageUrl(string? imagePath)
+    {
+        if (string.IsNullOrWhiteSpace(imagePath))
+        {
+            return null;
+        }
+
+        if (Uri.TryCreate(imagePath, UriKind.Absolute, out var absoluteUri))
+        {
+            return absoluteUri.ToString();
+        }
+
+        if (_http.BaseAddress is null)
+        {
+            return imagePath;
+        }
+
+        var apiBase = _http.BaseAddress.ToString().TrimEnd('/');
+        var relativePath = imagePath.TrimStart('/');
+        return $"{apiBase}/{relativePath}";
+    }
     
     public async Task<bool> DeleteAsync(int id)
     {
@@ -28,16 +50,44 @@ public class BusinessService
         return business;
     }
 
-    public async Task CreateBusinessAsync(BusinessAddModel business)
+    public async Task<(bool Success, string? ErrorMessage)> CreateBusinessAsync(MultipartFormDataContent business)
     {
-        var response = await _http.PostAsJsonAsync("api/business", business);
-        response.EnsureSuccessStatusCode();
+        var response = await _http.PostAsync("api/business", business);
+        if (response.IsSuccessStatusCode)
+        {
+            return (true, null);
+        }
+
+        var errorMessage = await response.Content.ReadAsStringAsync();
+        if (string.IsNullOrWhiteSpace(errorMessage))
+        {
+            errorMessage = $"HTTP {(int)response.StatusCode} ({response.StatusCode})";
+        }
+
+        return (false, errorMessage);
     }
 
     public async Task UpdateBusinessAsync(int businessId, BusinessUpdateModel business)
     {
         var response = await _http.PutAsJsonAsync($"api/business/{businessId}", business);
         response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<(bool Success, string? ErrorMessage)> UpdateBusinessAsync(int businessId, MultipartFormDataContent business)
+    {
+        var response = await _http.PutAsync($"api/business/{businessId}", business);
+        if (response.IsSuccessStatusCode)
+        {
+            return (true, null);
+        }
+
+        var errorMessage = await response.Content.ReadAsStringAsync();
+        if (string.IsNullOrWhiteSpace(errorMessage))
+        {
+            errorMessage = $"HTTP {(int)response.StatusCode} ({response.StatusCode})";
+        }
+
+        return (false, errorMessage);
     }
 
     public async Task AddPackageToBusiness(int businessId, PackageAddModel PackageAddModel)
