@@ -6,6 +6,7 @@ public class OrderGetModel
     public DateTime Date{get;set;}
     public string? PackageName{get;set;}
     public string? BusinessName{get;set;}
+    public string PickupPin { get; set; } = string.Empty;
     public DateTime PickupStart{get;set;}
     public DateTime PickupEnd{get;set;}
     public string? UserName{get;set;}

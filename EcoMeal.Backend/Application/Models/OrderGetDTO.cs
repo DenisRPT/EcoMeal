@@ -9,6 +9,7 @@ public class OrderGetDTO
     public int BusinessId{get;set;}
     public required string BusinessName{get;set;}
     public DateTime Date{get;set;}
+    public required string PickupPin{get;set;}
     public DateTime PickupStart{get;set;}
     public DateTime PickupEnd{get;set;}
     public string? UserName{get;set;}

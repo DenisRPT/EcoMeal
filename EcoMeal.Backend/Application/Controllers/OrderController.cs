@@ -6,6 +6,7 @@ using EcoMeal.Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace EcoMeal.Backend.Controllers;
 
@@ -33,7 +34,7 @@ public class OrderController:ControllerBase
             return NotFound("Pachetul nu a fost gasit");
         }
 
-        if (package.IsReserved || package.PickupEnd <= DateTime.UtcNow)
+        if (package.IsReserved || package.PickupEnd <= DateTime.Now)
         {
             return BadRequest("Pachetul nu mai este disponibil");
         }
@@ -46,7 +47,8 @@ public class OrderController:ControllerBase
             UserId = userId,
             PackageId = package.Id,
             Status = OrderStatus.Rezervat,
-            OrderDate = DateTime.UtcNow
+            OrderDate = DateTime.UtcNow,
+            PickupPin = GeneratePickupPin()
         };
 
         _context.Orders.Add(order);
@@ -63,6 +65,7 @@ public class OrderController:ControllerBase
             Price = (double)package.Price,
             BusinessId = package.BusinessId,
             BusinessName = package.Business.Name,
+            PickupPin = order.PickupPin,
             PickupStart = package.PickupStart,
             PickupEnd = package.PickupEnd,
             UserName = user?.Name,
@@ -86,6 +89,7 @@ public class OrderController:ControllerBase
                 BusinessId = o.Package!.BusinessId,
                 BusinessName = o.Package!.Business!.Name,
                 PackageName = o.Package!.Name,
+                PickupPin = o.PickupPin,
                 PickupStart = o.Package!.PickupStart,
                 PickupEnd = o.Package!.PickupEnd
             }).ToListAsync();
@@ -111,6 +115,7 @@ public class OrderController:ControllerBase
                 BusinessId = o.Package!.BusinessId,
                 BusinessName = o.Package!.Business!.Name,
                 PackageName = o.Package!.Name,
+                PickupPin = o.PickupPin,
                 PickupStart = o.Package!.PickupStart,
                 PickupEnd = o.Package!.PickupEnd,
                 UserName = o.User!.Name,
@@ -145,5 +150,10 @@ public class OrderController:ControllerBase
     {
         var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return int.Parse(userIdValue!);
+    }
+
+    private static string GeneratePickupPin()
+    {
+        return RandomNumberGenerator.GetInt32(0, 10000).ToString("D4");
     }
 }

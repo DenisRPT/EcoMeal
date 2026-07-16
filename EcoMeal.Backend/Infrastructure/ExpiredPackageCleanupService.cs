@@ -23,7 +23,7 @@ public class ExpiredPackageCleanupService : BackgroundService
                 using var scope = _services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<EcoMealDbContext>();
 
-                var now = DateTime.UtcNow;
+                var now = DateTime.Now;
                 var expired = await db.Packages
                     .Where(p => p.PickupEnd <= now && !p.Orders.Any())
                     .ToListAsync(stoppingToken);

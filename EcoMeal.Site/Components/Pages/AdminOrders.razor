@@ -31,6 +31,7 @@
                                     <th>Business</th>
                                     <th>Utilizator</th>
                                     <th>Contact</th>
+                                    <th>PIN</th>
                                     <th>Ridicare</th>
                                     <th>Status</th>
                                     <th class="text-center">Acțiuni</th> 
@@ -45,6 +46,7 @@
                                         <td class="align-middle">@o.BusinessName</td>
                                         <td class="align-middle">@o.UserName</td>
                                         <td class="align-middle">@o.UserContact</td>
+                                        <td class="align-middle fw-semibold">@o.PickupPin</td>
                                         <td class="align-middle">@o.PickupStart.ToString("dd.MM.yyyy HH:mm") - @o.PickupEnd.ToString("HH:mm")</td>
                                         <td class="align-middle">
                                             <span class="badge rounded-pill order-badge @GetBadgeClass(o.Status)">

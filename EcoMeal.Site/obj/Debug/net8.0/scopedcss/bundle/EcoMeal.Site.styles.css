@@ -312,7 +312,7 @@ header.sticky-top[b-divn5014ok] {
 }
 
 .theme-light[b-divn5014ok] {
-    background: #61e78725;
+    background: #f5f7fa;
     color: #111827;
 }
 
@@ -1235,6 +1235,7 @@ main[b-divn5014ok] {
         width: 100%;
     }
 }
+/* /Components/Pages/EditBusiness.razor.rz.scp.css */
 /* /Components/Pages/Home.razor.rz.scp.css */
 /* /Components/Pages/Login.razor.rz.scp.css */
 

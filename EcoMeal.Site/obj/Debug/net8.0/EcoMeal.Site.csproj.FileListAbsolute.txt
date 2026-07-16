@@ -73,3 +73,4 @@ C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\scopedcss\Components\Pages\AdminOrders.razor.rz.scp.css
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\scopedcss\Components\BusinessList\BusinessList.razor.rz.scp.css
 C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\scopedcss\Components\Pages\Profile\Profile.razor.rz.scp.css
+C:\Users\Denis\Desktop\ProiecteVS\EcoMeal\EcoMeal\EcoMeal.Site\obj\Debug\net8.0\scopedcss\Components\Pages\EditBusiness.razor.rz.scp.css

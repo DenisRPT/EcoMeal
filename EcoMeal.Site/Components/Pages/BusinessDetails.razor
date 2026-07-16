@@ -1,4 +1,5 @@
 @page "/business/{Id:int}"
+@implements IDisposable
 @using Microsoft.AspNetCore.Components.Authorization
 @using global::EcoMeal.Site.Models
 @using global::EcoMeal.Site.Services
@@ -142,10 +143,36 @@ else
         private BusinessDetailsModel? Business;
         private string? FeedbackMessage;
         private string? FeedbackClass;
+        private CancellationTokenSource? _refreshCts;
 
         protected override async Task OnInitializedAsync()
         {
             Business = await businessService.GetOneById(Id);
+            _refreshCts = new CancellationTokenSource();
+            _ = RefreshBusinessLoopAsync(_refreshCts.Token);
+        }
+
+        private async Task RefreshBusinessLoopAsync(CancellationToken cancellationToken)
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+
+            try
+            {
+                while (await timer.WaitForNextTickAsync(cancellationToken))
+                {
+                    var latestBusiness = await businessService.GetOneById(Id);
+                    if (latestBusiness is null)
+                    {
+                        continue;
+                    }
+
+                    Business = latestBusiness;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         public void NavigateToAddPackage()
@@ -204,5 +231,11 @@ else
         public void NavigateToEditBusiness()
         {
             NavigationManager.NavigateTo($"/business/{Id}/edit");
+        }
+
+        public void Dispose()
+        {
+            _refreshCts?.Cancel();
+            _refreshCts?.Dispose();
         }
 }

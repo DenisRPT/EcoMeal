@@ -160,7 +160,7 @@ public class BusinessController : ControllerBase
                 BusinessTypeId = b.BusinessTypeId,
                 ImagePath = b.ImagePath,
                 Packages = b.Packages
-                .Where(p => !p.IsReserved && p.PickupEnd > DateTime.UtcNow)
+                .Where(p => !p.IsReserved && p.PickupEnd > DateTime.Now)
                 .Select(p => new PackageGetDTO
                 {
                     Id = p.Id,
