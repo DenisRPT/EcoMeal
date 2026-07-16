@@ -42,6 +42,7 @@ options.AddPolicy("AllowBlazorSite",
     }
 ));
 builder.Services.AddControllers();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

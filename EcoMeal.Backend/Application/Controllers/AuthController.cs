@@ -4,6 +4,7 @@ using EcoMeal.API.Application.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using EcoMeal.Backend.Infrastructure;
 
 namespace EcoMeal.API.Application.Controllers;
 
@@ -12,10 +13,12 @@ namespace EcoMeal.API.Application.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
+    private readonly IEmailService _emailService;
 
-    public AuthController(UserManager<User> userManager)
+    public AuthController(UserManager<User> userManager, IEmailService emailService)
     {
         _userManager = userManager;
+        _emailService = emailService;
     }
 
     [HttpPost("register")]
@@ -35,6 +38,8 @@ public class AuthController : ControllerBase
             return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
 
         await _userManager.AddToRoleAsync(user, UserRoles.User);
+
+        await _emailService.SendWelcomeEmailAsync(user.Email, user.Name);
 
         return Ok(new { Message = "User registered successfully" });
     }
